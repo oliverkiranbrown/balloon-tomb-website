@@ -1,6 +1,6 @@
 export default function ManifestoPage() {
     return (
-        <div className="p-6 bg-white text-black">
+        <div className="p-6 bg-white text-black min-h-screen flex flex-col">
             <h1 className="text-4xl font-bold">Manifesto</h1>
             <br/>
             <p>

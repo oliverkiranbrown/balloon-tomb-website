@@ -19,7 +19,7 @@ export default function LyricsPage() {
           <li key={song.slug}>
             <a
               href={`/lyrics/${song.slug}`}
-              className="text-pink-400 hover:text-black font-mono text-2xl underline"
+              className="text-pink-400 hover:text-black text-2xl underline"
             >
               {song.title}
             </a>

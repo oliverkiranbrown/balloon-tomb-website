@@ -1,4 +1,8 @@
+'use client'
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/pixelact-ui/carousel";
+
 export default function LivePage() {
+
     const upcoming = [
         {
             date: "May 2nd, 2025",
@@ -27,10 +31,8 @@ export default function LivePage() {
     
     return (
         <div className="p-6 text-black max-w-5xl mx-auto space-y-12">
-            {/* UPCOMING GIGS */}
             <section>
                 <h1 className="text-4xl font-bold mb-4">Upcoming Gigs</h1>
-
                 {upcoming.length === 0 && (
                     <p className="text-gray-400">No gigs announced. We are asleep.</p>
                 )}
@@ -48,31 +50,38 @@ export default function LivePage() {
                     ))}
                 </ul>
             </section>
-            
-            {/* PREVIOUS GIGS */}
+
             <section>
-                <h2 className="text-3x1 font-bold mb-4">
+                <h1 className="text-4xl font-bold mb-4">
                     Previous Gigs
-                </h2>
-                <div className="flex gap-4 overflow-x-auto pb-4">
-                    {previous.map((gig, index) => (
-                        <div 
-                            key={index} 
-                            className="flex-shrink-0 w-90 bg-black border border-white rounded-lg p-2"
-                        >
-                            <div className="w-full h-140 bg-black overflow-hidden rounded">
-                                <img 
-                                    src={gig.poster}
-                                    alt={`Gig Poster ${index+1}`}
-                                    className="w-full h-full object-cover"
-                                />    
-                            </div>    
-                        </div>
-                    ))}
+                </h1>
+                <div className="flex justify-center ">
+                    <Carousel className="max-w-md bg-black p-1">
+                        <CarouselContent className="gap-4">
+                            {previous.map((gig, index) => (
+                            <CarouselItem key={index}> 
+                                <div className="h-120 flex items-center justify-center">
+                                    <span>
+                                        <div className="w-80 h-full">
+                                            <img 
+                                                src={gig.poster}
+                                                alt={`Gig Poster ${index+1}`}
+                                                className="w-full h-full object-cover"
+                                            />    
+                                        </div> s
+                                    </span>
+                                </div>
+                            </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                        <CarouselPrevious />
+                        <CarouselNext />
+                    </Carousel>
                 </div>
             </section>
-
+        
             
         </div>
+        
     );
 }
