@@ -26,6 +26,15 @@ export default function LyricsPage() {
           </li>
         ))}
       </ul>
+      <div>
+        <br/>
+        <img
+          src="/photos/shout_pixelated.jpg"
+          alt="Taylor"
+          className="w-full h-full object-contain border-4 border-gray-300 hover:border-pink-500 transition-colors duration-300"
+        />
+      </div>
     </div>
+
   );
 }

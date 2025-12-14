@@ -7,13 +7,20 @@ export default function ManifestoPage() {
             <h1 className="text-4xl font-bold">Manifesto</h1>
             <br/>
             <p>
-                Punk isn't dead...
+                Punk isn't dead. It's alive in the sounds of Balloon Tomb...
             </p>
             <br/>
+            <img
+                src="/photos/circle_pixelated.jpg"
+                alt="Taylor"
+                className="w-full h-full object-contain border-4 border-gray-300 hover:border-pink-500 transition-colors duration-300"
+            />
+             <br/>
             <p>
-                It's alive in the sounds of Balloon Tomb...
+                Balloon Tomb are a silly and loud bunch of four people. They make their sounds within the city of Bristol. They enjoy shouting about goblins, trains, and dating apps. Don't shout back at them or they may cry. 
             </p>
             <br/>
+
             {/* Row of GIFs */}
             <div className="flex flex-wrap gap-6 justify-center d">
                 <div className="flex flex-col items-center">
@@ -88,7 +95,16 @@ export default function ManifestoPage() {
                 />
                 </div>
             </div>
+            <br/>
+            <p>
+                Checkout their silly words, socials and gigs, and submit ur worst dates n trains for us to yell about  - much fun to come!
+            </p>
+            <br/>
+            <img
+                src="/photos/line_pixelated.jpg"
+                alt="Taylor"
+                className="w-full h-full object-contain border-4 border-gray-300 hover:border-pink-500 transition-colors duration-300"
+            />  
         </div>
-        
     );
 }

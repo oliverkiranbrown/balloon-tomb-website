@@ -5,15 +5,10 @@ export default function LivePage() {
 
     const upcoming = [
         {
-            date: "May 2nd, 2025",
-            venue: "The Fleece",
+            date: "Saturday 24th Jan, 2025",
+            venue: "The Thunderbolt",
             city: "Bristol",
         },
-        {
-            date: "May 19nd, 2025",
-            venue: "The Ratrace",
-            city: "Bristol",
-        }
     ];
 
     const previous = [
