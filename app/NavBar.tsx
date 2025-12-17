@@ -7,7 +7,6 @@ export default function NavBar() {
   const [musicOpen, setMusicOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const timeoutId = useRef<NodeJS.Timeout>();
   const pathname = usePathname();
   const dropdownRef = useRef<HTMLLIElement>(null);
 
@@ -40,17 +39,6 @@ export default function NavBar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleMouseEnter = () => {
-    if (timeoutId.current) clearTimeout(timeoutId.current);
-    if (!isMobile) setMusicOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    if (!isMobile) {
-      timeoutId.current = setTimeout(() => setMusicOpen(false), 200);
-    }
-  };
-
   const handleTouchToggle = () => {
     if (isMobile) {
       setMusicOpen(!musicOpen);
@@ -71,94 +59,18 @@ export default function NavBar() {
 
   return (
     <>
-      <nav className="w-full bg-black text-white border-b border-white">
-        <div className="container mx-auto px-4 py-3">
-          <div className="flex items-center justify-between">
+      <nav className="fixed top-0 left-0 w-full bg-black text-white border-b border-white z-50">
+        <div className="container mx-auto px-4 py-3 overflow-y-hidden">
+          <div className="flex items-center justify-between overflow-y-hidden">
             {/* Logo - always visible */}
             <Link href="/" className="z-50">
               <img
                 src="/logos/balloon-tomb-dark.jpg"
                 alt="Balloon Tomb Logo"
-                className="w-20 h-auto md:w-24 lg:w-28 object-contain"
+                className="w-20 md:w-24 lg:w-28 object-contain"
               />
             </Link>
-
-            {/* Desktop Navigation - hidden on mobile */}
-            <div className="hidden lg:flex items-center space-x-8">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`
-                    font-bold tracking-wider
-                    transition-colors duration-200
-                    ${pathname === link.href ? "text-pink-500" : "text-white"}
-                    hover:text-pink-400
-                    text-lg
-                  `}
-                >
-                  {link.label}
-                </Link>
-              ))}
-
-              {/* Music dropdown for desktop */}
-              <li
-                className="relative list-none"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                ref={dropdownRef}
-              >
-                <button
-                  className={`
-                    font-bold tracking-wider
-                    transition-colors duration-200
-                    ${pathname.startsWith("/music") ? "text-pink-500" : "text-white"}
-                    hover:text-pink-400
-                    text-lg
-                    focus:outline-none focus:ring-2 focus:ring-pink-500
-                  `}
-                >
-                  Music
-                </button>
-
-                {musicOpen && (
-                  <ul className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-56 bg-black border border-white rounded-lg shadow-xl z-50 py-2">
-                    {musicLinks.map((link, index) => (
-                      <li key={link.label} className="border-b border-white/30 last:border-b-0">
-                        {link.external ? (
-                          <a
-                            href={link.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block px-6 py-3 hover:bg-pink-500 hover:text-black transition-all duration-200 font-bold"
-                          >
-                            {link.label}
-                          </a>
-                        ) : (
-                          <Link
-                            href={link.href}
-                            className="block px-6 py-3 hover:bg-pink-500 hover:text-black transition-all duration-200 font-bold"
-                          >
-                            {link.label}
-                          </Link>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-
-              {/* Socials for desktop */}
-              <a
-                href="https://www.instagram.com/balloon_tomb/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-bold tracking-wider hover:text-pink-400 transition-colors duration-200 text-lg"
-              >
-                Socials
-              </a>
-            </div>
-
+            
             {/* Mobile Menu Button - only visible on mobile */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -202,7 +114,7 @@ export default function NavBar() {
         `}>
           <div className="
             absolute top-20 right-0 bottom-0 left-0
-            bg-gradient-to-b from-black via-black to-gray-900
+            bg-black
             overflow-y-auto
           ">
             <div className="container mx-auto px-6 py-24">

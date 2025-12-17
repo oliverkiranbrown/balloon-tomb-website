@@ -133,5 +133,6 @@
 html, body {
   font-family: "PressStart2P", sans-serif;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: hidden; 
+  scrollbar-gutter: stable;
 }

@@ -27,13 +27,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <link rel="icon" type="image/png" href="/favicon.png" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
         <NavBar />
-        <main className="mt-8">{children}</main>
+        <main className="pt-[72px] mt-8">{children}</main>
         <Footer/>
       </body>
     </html>
