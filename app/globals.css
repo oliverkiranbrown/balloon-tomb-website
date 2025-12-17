@@ -132,4 +132,6 @@
 /* Apply globally*/
 html, body {
   font-family: "PressStart2P", sans-serif;
+  max-width: 100%;
+  overflow-x: hidden;
 }
