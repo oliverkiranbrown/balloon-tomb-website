@@ -13,20 +13,32 @@ import {
   AlertDialogAction,
 } from "@/components/ui/pixelact-ui/alert-dialog";
 import { Button } from "@/components/ui/pixelact-ui/button";
-import { DialogClose } from "@radix-ui/react-dialog";
-
+import { Dialog } from "@radix-ui/react-dialog";
 
 export default function Footer() {
   const [message, setMessage] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [sent, setSent] = useState(false);
 
-  const handleSubmit = () => {
-    if (!message.trim()) return;
+  // Function to handle form submisson
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSent(false);
+    setError(null);
 
-    // TODO: send message to API
-    console.log("Submitted message:", message);
+    // grab the API from the submit file
+    const res = await fetch('/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message }),
+    });
 
-    setMessage(message);
-  };
+    if (res.ok) {
+      const data = await res.json();
+      setSent(true);
+      return
+    }
+  }
 
   return (
     <footer className="bg-black text-white border-t border-white py-6 px-4">
@@ -61,28 +73,23 @@ export default function Footer() {
                   setMessage(e.target.value);
                   /* Prints to the browser console */
                   console.log(message);
-                } }
+                }}
+                required
               />
 
-              <AlertDialogFooter>
-                <AlertDialogCancel asChild>
-                  <Button
-                    variant="destructive"
-                  >
-                    Cancel
-                  </Button>
-                </AlertDialogCancel>
+              {error && <p className="error">{error}</p>}
 
+              <AlertDialogFooter>
                 <AlertDialogAction asChild>
                   <Button
                     onClick={handleSubmit}
-                    disabled={!message.trim()}
+                    disabled={sent}
                     variant="success"
                   >
-                    Submit
+                    {sent ? 'Sent': 'Submit'}
                   </Button>
-
                 </AlertDialogAction>
+
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
