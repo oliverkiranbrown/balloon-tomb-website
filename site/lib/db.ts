@@ -1,7 +1,6 @@
 // Utility file for the db connection
 
 import pkg, { QueryResult } from 'pg';
-//import DATABASE_URL from '../.env.local';
 const { Pool } = pkg;
 
 const pool = new Pool({

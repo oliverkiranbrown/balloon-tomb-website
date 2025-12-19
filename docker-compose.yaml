@@ -1,0 +1,32 @@
+services:
+  app:
+    container_name: balloon-tomb-site
+    build:
+      context: ./site
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./site:/app
+      - /app/node_modules
+    env_file:
+      - .env.local
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    container_name: balloon-tomb-db
+    env_file:
+      - .env.local
+    image: postgres:16-alpine
+    # host port is 5433, container port is 5432
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data 
+      - ./db-init:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
