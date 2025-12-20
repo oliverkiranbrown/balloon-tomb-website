@@ -12,19 +12,32 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/pixelact-ui/alert-dialog";
+import { 
+  Select, 
+  SelectTrigger, 
+  SelectValue, 
+  SelectContent, 
+  SelectItem 
+} from "@/components/ui/pixelact-ui/select";
 import { Button } from "@/components/ui/pixelact-ui/button";
 import { Dialog } from "@radix-ui/react-dialog";
+import AudioRecorder from "@/components/audio-recorder"
 
 export default function Footer() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
+  type InputMode = "text" | "audio";
+  // Variable for voice note or text input
+  const [inputMode, setInputMode] = useState<InputMode>("text");
 
   // Function to handle form submisson
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSent(false);
     setError(null);
+
+
 
     // grab the API from the submit file
     const res = await fetch('/api/submit', {
@@ -65,17 +78,50 @@ export default function Footer() {
                 </AlertDialogDescription>
               </AlertDialogHeader>
 
+              <Select
+                value={inputMode}
+                onValueChange={(value) => setInputMode(value as InputMode)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Choose input type"/>
+                </SelectTrigger>
+
+                <SelectContent>
+                  <SelectItem value="text">Text</SelectItem>
+                  <SelectItem value="audio">Audio</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {inputMode === "text" && (
+                <textarea
+                  className="w-full p-3 text-sm text-white bg-black border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  placeholder="Give us the tea!"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+              )}
+
+              {inputMode === "audio" && (
+                <AudioRecorder/>
+              )}
+
+              {/*
+
               <textarea
-                className="w-full min-h-[120px] p-3 text-sm text-white bg-black border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                className="w-full p-3 text-sm text-white bg-black border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
                 placeholder="Type your message here..."
                 value={message}
                 onChange={(e) => {
                   setMessage(e.target.value);
-                  /* Prints to the browser console */
+                  // Prints to the browser console 
                   console.log(message);
                 }}
                 required
               />
+
+              <AudioRecorder/>
+
+              */}
 
               {error && <p className="error">{error}</p>}
 

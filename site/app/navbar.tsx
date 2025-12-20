@@ -60,10 +60,11 @@ export default function NavBar() {
   return (
     <>
       <nav className="fixed top-0 left-0 w-full bg-black text-white border-b border-white z-50">
-        <div className="container mx-auto px-4 py-3 overflow-y-hidden">
+        <div className="w-full px-4 py-3">
+
           <div className="flex items-center justify-between overflow-y-hidden">
             {/* Logo - always visible */}
-            <Link href="/" className="z-50">
+            <Link href="/" className="z-25">
               <img
                 src="/logos/balloon-tomb-dark.jpg"
                 alt="Balloon Tomb Logo"
@@ -146,7 +147,7 @@ export default function NavBar() {
                       w-full text-left text-2xl font-bold tracking-wider
                       py-3
                       transition-all duration-200
-                      ${pathname.startsWith("/music") ? "text-pink-500" : "text-white"}
+                      ${pathname?.startsWith("/music") ? "text-pink-500" : "text-white"}
                       hover:text-pink-400
                       flex items-center justify-between
                     `}
