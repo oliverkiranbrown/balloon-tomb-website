@@ -118,7 +118,7 @@ export default function Footer() {
 
               {inputMode === "text" && (
                 <textarea
-                  className="w-full p-3 text-sm text-white bg-black border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-full h-45 p-3 text-sm text-white bg-black border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
                   placeholder="Give us the tea!"
                   value={textData}
                   onChange={(e) => setTextData(e.target.value)}

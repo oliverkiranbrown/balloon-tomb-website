@@ -40,6 +40,7 @@ export default function NavBar() {
   }, []);
 
   const handleTouchToggle = () => {
+    //setMusicOpen(!musicOpen)
     if (isMobile) {
       setMusicOpen(!musicOpen);
     }
@@ -62,7 +63,7 @@ export default function NavBar() {
       <nav className="fixed top-0 left-0 w-full bg-black text-white border-b border-white z-50">
         <div className="w-full px-4 py-3">
 
-          <div className="flex items-center justify-between overflow-y-hidden">
+          <div className="flex items-center justify-between">
             {/* Logo - always visible */}
             <Link href="/" className="z-25">
               <img
@@ -71,6 +72,13 @@ export default function NavBar() {
                 className="w-20 md:w-24 lg:w-28 object-contain"
               />
             </Link>
+
+            {/* Desktop Nav */}
+            <DesktopNav
+              navLinks={navLinks}
+              musicLinks={musicLinks}
+              pathname={pathname}
+            />
             
             {/* Mobile Menu Button - only visible on mobile */}
             <button
@@ -224,3 +232,102 @@ export default function NavBar() {
     </>
   );
 }
+
+// Helper function to convert mobile nav to desktop nav
+function NavLink({
+    href,
+    label,
+    active
+  }: {
+    href: string,
+    label: string,
+    active: boolean
+  }) {
+    return (
+      <Link
+        href={href}
+        className={`
+          font-bold tracking-wider transition-colors
+          ${active ? "text-pink-500" : "text-white"}
+          hover:text-pink-400
+        `}
+      >
+        {label}
+      </Link>
+    )
+  }
+
+
+function DesktopNav({
+  navLinks,
+  musicLinks,
+  pathname,
+}: {
+  navLinks: { href: string; label: string }[];
+  musicLinks: { href: string; label: string; external?: boolean }[];
+  pathname: string | null;
+}) {
+  return (
+    <div className="hidden lg:flex items-center space-x-10">
+      {/* Primary links */}
+      {navLinks.map((link) => (
+        <NavLink
+          key={link.href}
+          href={link.href}
+          label={link.label}
+          active={pathname === link.href}
+        />
+      ))}
+
+      {/* Music dropdown (desktop hover) */}
+      <div className="relative group">
+        <button className="font-bold tracking-wider text-white group-hover:text-pink-400">
+          Music
+        </button>
+
+        <ul className="
+          absolute top-full left-0 mt-4
+          bg-black border border-white
+          opacity-0 invisible
+          group-hover:opacity-100 group-hover:visible
+          transition-all duration-200
+          min-w-[180px]
+        ">
+          {musicLinks.map((link) => (
+            <li key={link.label}>
+              {link.external ? (
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block px-4 py-3 text-white hover:bg-pink-500"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  href={link.href}
+                  className="block px-4 py-3 text-white hover:bg-pink-500"
+                >
+                  {link.label}
+                </Link>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Socials */}
+      <a
+        href="https://www.instagram.com/balloon_tomb/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-bold tracking-wider text-white hover:text-pink-400"
+      >
+        Socials
+      </a>
+    </div>
+  );
+}
+
+
