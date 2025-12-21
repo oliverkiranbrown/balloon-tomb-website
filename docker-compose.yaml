@@ -9,6 +9,8 @@ services:
     volumes:
       - ./site:/app
       - /app/node_modules
+      # Create an audio folder inside project
+      - ./audio:/app/audio
     env_file:
       - .env.local
     depends_on:
@@ -28,5 +30,6 @@ services:
       - ./db-init:/docker-entrypoint-initdb.d
     restart: unless-stopped
 
+# Is this persistant storage?
 volumes:
   postgres_data:

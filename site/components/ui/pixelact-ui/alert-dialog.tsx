@@ -1,6 +1,6 @@
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
 import { type VariantProps, cva } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/lib/utils";
 import {
   AlertDialog as ShadcnAlertDialog,
   AlertDialogTrigger as ShadcnAlertDialogTrigger,

@@ -1,8 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/pixelact-ui/button";
+import { blob } from "stream/consumers";
 
+// Expose the interial variables to the UI component
+interface AudioRecorderProps {
+    // Define the arguments of the function
+    onAudioChange?: (blob: Blob | null, url: string | null) => void; 
+}
 
-export default function AudioRecorder() {
+export default function AudioRecorder(
+    { onAudioChange }: AudioRecorderProps
+) {
     // Create a reference to media recorder and instantate with null
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     // Create a place to store data and instantate with empty list
@@ -119,13 +127,19 @@ export default function AudioRecorder() {
             const audioBlob = new Blob(chunksRef.current, {
                 type: "audio/webm",
             });
-            // Store the blob value in state
+            const url = URL.createObjectURL(audioBlob);
+            
+            // Store the blob value/url in state
             setAudioBlob(audioBlob);
+            setAudioURL(url);
+
+            // Notify parent
+            if (onAudioChange) {
+                onAudioChange(audioBlob, url);
+            }
 
             // Clean out the start chunks
             chunksRef.current = [];
-            // Put blob into backend
-            console.log('Recorded blob', audioBlob, isRecording);
             
         };
     };
@@ -135,6 +149,7 @@ export default function AudioRecorder() {
         canvas: HTMLCanvasElement
     ) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = "#ffffffff";
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(0, canvas.height * 0.5);

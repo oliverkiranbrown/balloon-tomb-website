@@ -1,5 +1,5 @@
 import * as React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/lib/utils";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import {
   Dialog as ShadcnDialog,

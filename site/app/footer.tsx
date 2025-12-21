@@ -20,11 +20,12 @@ import {
   SelectItem 
 } from "@/components/ui/pixelact-ui/select";
 import { Button } from "@/components/ui/pixelact-ui/button";
-import { Dialog } from "@radix-ui/react-dialog";
 import AudioRecorder from "@/components/audio-recorder"
 
 export default function Footer() {
-  const [message, setMessage] = useState("");
+  const [textData, setTextData] = useState("");
+  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const [audioURL, setAudioURL] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
   type InputMode = "text" | "audio";
@@ -37,20 +38,43 @@ export default function Footer() {
     setSent(false);
     setError(null);
 
+    // Choose which API call is relevant
+    if (inputMode === "text") {
 
+      // Grab API call for text submission
+      const res = await fetch('/api/text_submit', {
+        method: 'POST',
+        // payload is simple string
+        body: JSON.stringify({ textData }),
+      });
 
-    // grab the API from the submit file
-    const res = await fetch('/api/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message }),
-    });
+      // If fine, send - does this need custom handling?
+      if (res.ok) {
+        const data = await res.json();
+        setSent(true);
+        return;
+      }
 
-    if (res.ok) {
-      const data = await res.json();
-      setSent(true);
-      return
-    }
+    } else {
+
+      // Create payload for audio file
+      const formData = new FormData();
+      formData.append("audio", audioBlob!); 
+      formData.append("url", audioURL || ""); 
+
+      // Grab API call for audio submission
+      const res = await fetch('/api/audio_submit', {
+        method: 'POST',
+        body: formData
+      });
+
+      // If fine, send - does this need custom handling?
+      if (res.ok) {
+        const data = await res.json();
+        setSent(true);
+        return;
+      } 
+    }  
   }
 
   return (
@@ -96,32 +120,21 @@ export default function Footer() {
                 <textarea
                   className="w-full p-3 text-sm text-white bg-black border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
                   placeholder="Give us the tea!"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  value={textData}
+                  onChange={(e) => setTextData(e.target.value)}
                 />
               )}
 
               {inputMode === "audio" && (
-                <AudioRecorder/>
+                <AudioRecorder
+                  onAudioChange={
+                    (blob, url) => {
+                      setAudioBlob(blob),
+                      setAudioURL(url)
+                    }
+                  }
+                />
               )}
-
-              {/*
-
-              <textarea
-                className="w-full p-3 text-sm text-white bg-black border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
-                placeholder="Type your message here..."
-                value={message}
-                onChange={(e) => {
-                  setMessage(e.target.value);
-                  // Prints to the browser console 
-                  console.log(message);
-                }}
-                required
-              />
-
-              <AudioRecorder/>
-
-              */}
 
               {error && <p className="error">{error}</p>}
 

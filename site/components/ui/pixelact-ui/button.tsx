@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/lib/utils";
 import { Button as ShadcnButton } from "@/components/ui/button";
 import "@/components/ui/pixelact-ui/styles/styles.css";
 import "./button.css";
