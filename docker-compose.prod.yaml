@@ -5,8 +5,9 @@ services:
       dockerfile: Dockerfile.prod
     env_file:
       - .env.prod
-    expose:
-      - "3000"
+    # temp fix to work (expose port to VPS inside continer)
+    ports:
+      - "127.0.0.1:3000:3000"
     volumes:
       - audio_data:/app/audio
     depends_on:
