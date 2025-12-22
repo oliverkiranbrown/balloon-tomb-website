@@ -1,3 +1,4 @@
-/.env.local
+.env.local
+.env.prod
 /audio/*
-/audio_mp3/*
+audio_mp3
