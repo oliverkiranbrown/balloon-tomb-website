@@ -1,5 +1,5 @@
 # ------- Build Stage --------
-FROM node:20-alpine AS buidler
+FROM node:20-alpine AS builder
 
 # Set working directory. 
 WORKDIR /app
@@ -27,8 +27,8 @@ COPY --from=builder /app/package.json ./
 COPY --from=builder /app/package-lock.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/.next ./.next
-COPY --from=buidler /app/public ./public
-COPY --from=buidler /app/next.config.ts ./next.config.ts
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/next.config.ts ./next.config.ts
 
 # Create audio directory (owned by node)
 RUN mkdir -p /app/audio && chown -R node:node /app
