@@ -1,35 +1,27 @@
 services:
   app:
-    container_name: balloon-tomb-site
     build:
       context: ./site
-      dockerfile: Dockerfile.dev
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./site:/app
-      - /app/node_modules
-      # Create an audio folder inside project
-      - ./audio:/app/audio
+      dockerfile: Dockerfile.prod
     env_file:
-      - .env.local
+      - .env.prod
+    expose:
+      - "3000"
+    volumes:
+      - audio_data:/app/audio
     depends_on:
       - db
     restart: unless-stopped
 
   db:
-    container_name: balloon-tomb-db
-    env_file:
-      - .env.local
     image: postgres:16-alpine
-    # host port is 5433, container port is 5432
-    ports:
-      - "5433:5432"
+    env_file:
+      - .env.prod
     volumes:
       - postgres_data:/var/lib/postgresql/data 
       - ./db-init:/docker-entrypoint-initdb.d
     restart: unless-stopped
 
-# Is this persistant storage?
 volumes:
   postgres_data:
+  audio_data:
