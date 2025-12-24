@@ -76,15 +76,29 @@ export default function LyricsPage() {
       <h1 className="text-4xl font-bold mb-6">Lyrics</h1>
 
       <ul className="space-y-4">
-        <li>
+        <li className="text-pink-400 hover:text-black text-2xl underline">
           <Link href="lyrics/always_late" className="underline text-2xl">
             Always Late
           </Link>
         </li>
-        <li>
+        <li className="text-pink-400 hover:text-black text-2xl underline">
           <Link href="lyrics/new_docs" className="underline text-2xl">
             New Docs
           </Link>
+        </li>
+        <li className="text-pink-400 hover:text-black text-2xl underline">
+          <Link href="lyrics/haddock_dad" className="underline text-2xl">
+            Haddock Dad
+          </Link>
+        </li>
+        <li className="text-pink-400 text-2xl">
+          Goblin Dynasty
+        </li>
+        <li className="text-pink-400 text-2xl">
+          Pretty Mean
+        </li>
+        <li className="text-pink-400 text-2xl">
+          Punk Fellowship
         </li>
       </ul>
     </div>

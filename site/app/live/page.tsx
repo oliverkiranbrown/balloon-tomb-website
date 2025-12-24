@@ -8,6 +8,7 @@ export default function LivePage() {
             date: "Saturday 24th Jan, 2025",
             venue: "The Thunderbolt",
             city: "Bristol",
+            link: "https://www.fatsoma.com/e/s9s78jkw/the-underdog-2026-heat-f-alt-rock-punk"
         },
     ];
 
@@ -39,7 +40,15 @@ export default function LivePage() {
                             className="border-l-4 border-pink-500 pl-4 py-2 bg-black/40"
                         >
                             <p className="text-xl font-semibold">
-                                {gig.venue} - {gig.city} - {gig.date}
+                                {gig.venue}
+                            </p>
+                            <p>
+                                {gig.city} - {gig.date}
+                            </p>
+                            <p>
+                                <a href={gig.link} className="underline">
+                                    Get your tickets here!
+                                </a>
                             </p>
                         </li>
                     ))}

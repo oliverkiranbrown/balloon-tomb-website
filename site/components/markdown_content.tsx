@@ -14,7 +14,7 @@ export default async function MarkdownContent({
   const processed = await remark().use(html).process(markdown);
 
   return (
-    <article className="prose prose-lg max-w-none">
+    <article className="prose prose-lg max-w-none prose-headings:text-4xl prose-h1:text-5xl">
       <div
         dangerouslySetInnerHTML={{
           __html: processed.toString(),

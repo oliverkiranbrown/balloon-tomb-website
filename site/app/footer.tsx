@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/pixelact-ui/select";
 import { Button } from "@/components/ui/pixelact-ui/button";
 import AudioRecorder from "@/components/audio-recorder"
+import { Divide } from "lucide-react";
 
 export default function Footer() {
   const [textData, setTextData] = useState("");
@@ -135,21 +136,30 @@ export default function Footer() {
                   }
                 />
               )}
+              <div className="flex-1" />
 
               {error && <p className="error">{error}</p>}
 
-              <AlertDialogFooter>
+              <AlertDialogFooter className="flex justify-between">
+                <AlertDialogCancel asChild>
+                  <Button
+                    variant="destructive"
+                  >
+                    Cancel
+                  </Button>
+                </AlertDialogCancel>
+                <div className="flex-1" />
                 <AlertDialogAction asChild>
                   <Button
                     onClick={handleSubmit}
                     disabled={sent}
-                    variant="success"
+                    variant="default"
                   >
-                    {sent ? 'Sent': 'Submit'}
+                    {sent ? 'Sent': 'Submit your shit'}
                   </Button>
                 </AlertDialogAction>
-
               </AlertDialogFooter>
+              
             </AlertDialogContent>
           </AlertDialog>
         </div>
