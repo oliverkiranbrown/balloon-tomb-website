@@ -1,6 +1,9 @@
 import { remark } from "remark";
 import html from "remark-html";
 
+// TODO: https://medium.com/the-tech-pulse/just-files-build-a-blog-with-next-js-and-react-markdown-305935c86aca
+// Add nice rendering for header etc.
+
 interface MarkdownContentProps {
   markdown: string;
 }
