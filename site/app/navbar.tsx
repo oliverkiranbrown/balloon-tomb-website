@@ -139,6 +139,7 @@ export default function NavBar() {
                         transition-all duration-200
                         ${pathname === link.href ? "text-pink-500" : "text-white"}
                         hover:text-pink-400
+                        active:text-pink-600
                         hover:pl-4
                       `}
                     >
@@ -157,6 +158,7 @@ export default function NavBar() {
                       transition-all duration-200
                       ${pathname?.startsWith("/music") ? "text-pink-500" : "text-white"}
                       hover:text-pink-400
+                      active:text-pink-600
                       flex items-center justify-between
                     `}
                   >
@@ -250,6 +252,7 @@ function NavLink({
           font-bold tracking-wider transition-colors
           ${active ? "text-pink-500" : "text-white"}
           hover:text-pink-400
+          active:text-pink-600
         `}
       >
         {label}
@@ -281,7 +284,7 @@ function DesktopNav({
 
       {/* Music dropdown (desktop hover) */}
       <div className="relative group">
-        <button className="font-bold tracking-wider text-white group-hover:text-pink-400">
+        <button className="font-bold tracking-wider text-white group-hover:text-pink-400 group-active:text-pink-600">
           Music
         </button>
 
@@ -290,6 +293,7 @@ function DesktopNav({
           bg-black border border-white
           opacity-0 invisible
           group-hover:opacity-100 group-hover:visible
+          group-active:text-pink-600
           transition-all duration-200
           min-w-[180px]
         ">
@@ -300,14 +304,14 @@ function DesktopNav({
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block px-4 py-3 text-white hover:bg-pink-500"
+                  className="block px-4 py-3 text-white hover:bg-pink-500 active:text-pink-600"
                 >
                   {link.label}
                 </a>
               ) : (
                 <Link
                   href={link.href}
-                  className="block px-4 py-3 text-white hover:bg-pink-500"
+                  className="block px-4 py-3 text-white hover:bg-pink-500 active:text-pink-600"
                 >
                   {link.label}
                 </Link>
@@ -322,7 +326,7 @@ function DesktopNav({
         href="https://www.instagram.com/balloon_tomb/"
         target="_blank"
         rel="noopener noreferrer"
-        className="font-bold tracking-wider text-white hover:text-pink-400"
+        className="font-bold tracking-wider text-white hover:text-pink-400 active:text-pink-600"
       >
         Socials
       </a>
