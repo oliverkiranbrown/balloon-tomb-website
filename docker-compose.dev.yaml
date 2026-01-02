@@ -29,6 +29,21 @@ services:
       - postgres_data:/var/lib/postgresql/data 
       - ./db-init:/docker-entrypoint-initdb.d
     restart: unless-stopped
+  
+  pgadmin:
+    image: dpage/pgadmin4:9.8
+    ports:
+      - 5050:80
+    environment:
+      # Required by pgAdmin
+      PGADMIN_DEFAULT_EMAIL: oliverkiranbrown@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: something_very_secure
+
+      # Don't require the user to login
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+
+      # Don't require a "master" password after logging in
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
 
 # Is this persistant storage?
 volumes:

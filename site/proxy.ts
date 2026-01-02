@@ -14,7 +14,7 @@ export function proxy(req: NextRequest) {
     const isLoginPath = pathname === "/admin/login";
     
 
-    // 1. lock admin paths on the public domain
+    // 1. Lock admin paths on the public domain
     if (!isAdminHost && isAdminPath) {
         return NextResponse.redirect(
             new URL("/", req.url)
