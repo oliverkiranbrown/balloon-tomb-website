@@ -37,13 +37,15 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-4 py-8 bg-white">
+    <div className="min-h-screen flex flex-col items-center px-4 py-2 bg-white">
       <div>
-        <header className="text-lg font-bold text-black-600 mb-2 text-lg font-bold text-black-600 mb-2 text-center w-full max-w-4xl">Admin Dashboard</header>
+        <header className="text-3xl font-extrabold py-4">
+          Admin Dashboard
+        </header>
       </div>
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="flex-col gap-4">
-          <h2>Text Submissions</h2>
+          <h2 className="text-xl font-extrabold py-4">Text Submissions</h2>
           
           {textData.length > 0 ? (
             <div className="w-full max-w-4xl mx-auto">
@@ -72,7 +74,7 @@ export default function AdminDashboard() {
           )}
         </div>
         <div>
-          <h2>Audio Submissions</h2>
+          <h2 className="text-xl font-extrabold py-4">Audio Submissions</h2>
           <div className="flex-col gap-4">
             <text>ghjk</text>
           </div>
