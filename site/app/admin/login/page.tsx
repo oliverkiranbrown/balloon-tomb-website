@@ -27,7 +27,7 @@ export default function AdminLogin() {
 
     try {
       // Check for validity of user (sets cookie if correct)
-      const result = await fetch('/api/admin_auth', {
+      const result = await fetch('/api/admin/auth', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
