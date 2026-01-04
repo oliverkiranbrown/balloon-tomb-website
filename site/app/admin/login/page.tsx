@@ -3,23 +3,66 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/pixelact-ui/input";
 import { Button } from "@/components/ui/pixelact-ui/button";
+import { 
+AlertDialog, 
+AlertDialogTrigger, 
+AlertDialogContent, 
+AlertDialogHeader, 
+AlertDialogFooter, 
+AlertDialogTitle, 
+AlertDialogDescription,
+AlertDialogAction,
+} from "@/components/ui/pixelact-ui/alert-dialog";
+
 
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // 🔒 Hook your validation / auth logic in here
-    // validateCredentials({ username, password });
+    try {
+      // Check for validity of user (sets cookie if correct)
+      const result = await fetch('/api/admin_auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password })
+      });
 
-    console.log({ username, password });
+      if (result.ok) {
+        const data = await result.json();
+        console.log('Authentication successful', data)
 
-    setIsSubmitting(false);
+        window.location.href = '/admin';
+
+      } else {
+        const error = await result.json();
+        console.error('Auth Failed: ', error.error);
+        setIsError(true);
+        // Show user in UI
+      }
+    } catch (err) {
+      console.error('Network Error', err);
+      setIsError(true);
+      // Handle in UI
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  // If the user inputs their details incorrectly, reset
+  const handleError = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsError(false);
+    setUsername('');
+    setPassword('');
+  }
 
   return (
     <div
@@ -69,23 +112,51 @@ export default function AdminLogin() {
           autoComplete="current-password"
         />
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          style={{
-            marginTop: "8px",
-            padding: "10px",
-            borderRadius: "8px",
-            border: "none",
-            backgroundColor: "#000000ff",
-            color: "white",
-            fontWeight: 500,
-            cursor: isSubmitting ? "not-allowed" : "pointer",
-            opacity: isSubmitting ? 0.7 : 1,
-          }}
-        >
-          {isSubmitting ? "Signing in…" : "Sign in"}
-        </button>
+        <div className="flex justify-center">
+          {isError === false && (
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              onClick={handleSubmit}
+              style={{
+                backgroundColor: "#000000ff",
+                color: "white",
+                fontWeight: 500,
+                cursor: isSubmitting ? "not-allowed" : "pointer",
+                opacity: isSubmitting ? 0.7 : 1,
+              }}
+            >
+              {isSubmitting ? "Signing in…" : "Sign in"}
+            </Button>
+          )}
+          
+          {isError === true && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="warning">Error</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Authentication Failure</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    The username or password seems to be incorrect. 
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogAction asChild>
+                    <Button 
+                      variant="warning" 
+                      onClick={handleError}
+                    >
+                      Try Again
+                    </Button>
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+
+        </div>
       </form>
     </div>
   );
