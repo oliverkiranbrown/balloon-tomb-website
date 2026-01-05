@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Card,
   CardHeader,
@@ -9,7 +10,6 @@ import {
   CardFooter,
 } from '@/components/ui/pixelact-ui/card';
 import { Button } from '@/components/ui/button';
-import { useRef, useEffect, useState } from 'react';
 
 interface AudioPlaybackCardProps {
   data: {
@@ -25,25 +25,137 @@ export function AudioCard({ data }: AudioPlaybackCardProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const animationRef = useRef<number | null>(null);
 
-  // Refs to store Web Audio nodes / context to avoid multiple creation
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const analyserRef = useRef<AnalyserNode | null>(null);
-  const sourceRef = useRef<MediaElementAudioSourceNode | null>(null);
-
   const [isPlaying, setIsPlaying] = useState(false);
+  const [waveformData, setWaveformData] = useState<Float32Array | null>(null);
 
   const filename = data.file_path.split('/').pop();
   const src = `/api/admin/extract/stream/${filename}`;
 
+  /* -------------------- Load Audio and Extract Waveform -------------------- */
+  useEffect(() => {
+    const fetchAndDecode = async () => {
+      if (!filename) return;
+      const response = await fetch(src);
+      const arrayBuffer = await response.arrayBuffer();
+      const audioContext = new AudioContext();
+      const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+
+      const channelData = audioBuffer.getChannelData(0);
+
+      // Downsample to canvas width
+      const canvasWidth = 400;
+      const blockSize = Math.floor(channelData.length / canvasWidth);
+      const waveform = new Float32Array(canvasWidth);
+      for (let i = 0; i < canvasWidth; i++) {
+        let sum = 0;
+        for (let j = 0; j < blockSize; j++) {
+          sum += Math.abs(channelData[i * blockSize + j]);
+        }
+        waveform[i] = sum / blockSize;
+      }
+      setWaveformData(waveform);
+    };
+
+    fetchAndDecode();
+  }, [src, filename]);
+
+  /* -------------------- Draw Static Waveform -------------------- */
+  useEffect(() => {
+    if (!waveformData) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const width = canvas.width;
+    const height = canvas.height;
+
+    // Draw entire waveform in gray
+    ctx.beginPath();
+    waveformData.forEach((amp, i) => {
+      const x = i;
+      const y = height / 2 - amp * (height / 2);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.strokeStyle = '#888888';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }, [waveformData]);
+
+  /* -------------------- Animate Playback Overlay -------------------- */
+  const drawOverlay = (progress: number) => {
+    const canvas = canvasRef.current;
+    if (!canvas || !waveformData) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const width = canvas.width;
+    const height = canvas.height;
+
+    // Clear overlay (keep base waveform)
+    ctx.clearRect(0, 0, width, height);
+
+    // Redraw base waveform in gray
+    ctx.beginPath();
+    waveformData.forEach((amp, i) => {
+      const x = i;
+      const y = height / 2 - amp * (height / 2);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.strokeStyle = '#888888';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Draw played portion in pink
+    const playedPixels = Math.floor(progress * width);
+    ctx.beginPath();
+    waveformData.slice(0, playedPixels).forEach((amp, i) => {
+      const x = i;
+      const y = height / 2 - amp * (height / 2);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.strokeStyle = '#ff4da6';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Draw vertical playhead
+    ctx.beginPath();
+    const playheadX = progress * width;
+    ctx.moveTo(playheadX, 0);
+    ctx.lineTo(playheadX, height);
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  };
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || !waveformData) return;
+
+    const update = () => {
+      if (!audio) return;
+      const progress = audio.currentTime / audio.duration || 0;
+      drawOverlay(progress);
+      animationRef.current = requestAnimationFrame(update);
+    };
+
+    if (isPlaying) animationRef.current = requestAnimationFrame(update);
+    else if (animationRef.current) cancelAnimationFrame(animationRef.current);
+
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
+  }, [isPlaying, waveformData]);
+
   /* -------------------- Playback Controls -------------------- */
   const play = async () => {
     if (!audioRef.current) return;
-
-    // Resume suspended context (needed on Safari / mobile)
-    if (audioContextRef.current?.state === 'suspended') {
-      await audioContextRef.current.resume();
-    }
-
     await audioRef.current.play();
     setIsPlaying(true);
   };
@@ -56,7 +168,6 @@ export function AudioCard({ data }: AudioPlaybackCardProps) {
   /* -------------------- Download -------------------- */
   const download = () => {
     if (!filename) return;
-
     const a = document.createElement('a');
     a.href = src;
     a.download = filename;
@@ -65,81 +176,7 @@ export function AudioCard({ data }: AudioPlaybackCardProps) {
     document.body.removeChild(a);
   };
 
-  /* -------------------- Waveform Visualisation -------------------- */
-  useEffect(() => {
-    const audio = audioRef.current;
-    const canvas = canvasRef.current;
-    if (!audio || !canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    // Create AudioContext + analyser + source ONCE
-    if (!audioContextRef.current) {
-      const audioContext = new AudioContext();
-      const analyser = audioContext.createAnalyser();
-      analyser.fftSize = 2048;
-
-      const source = audioContext.createMediaElementSource(audio);
-      source.connect(analyser);
-      analyser.connect(audioContext.destination);
-
-      audioContextRef.current = audioContext;
-      analyserRef.current = analyser;
-      sourceRef.current = source;
-    }
-
-    const analyser = analyserRef.current;
-    if (!analyser) return;
-
-    const bufferLength = analyser.fftSize;
-    const dataArray = new Uint8Array(bufferLength);
-
-    const draw = () => {
-      animationRef.current = requestAnimationFrame(draw);
-
-      analyser.getByteTimeDomainData(dataArray);
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = isPlaying ? '#ff4da6' : '#ffffff';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-
-      const sliceWidth = canvas.width / bufferLength;
-      let x = 0;
-
-      for (let i = 0; i < bufferLength; i++) {
-        const v = dataArray[i] / 128.0;
-        const y = (v * canvas.height) / 2;
-
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-
-        x += sliceWidth;
-      }
-
-      ctx.lineTo(canvas.width, canvas.height / 2);
-      ctx.stroke();
-    };
-
-    draw();
-
-    // Stop animation when audio ends
-    audio.onended = () => {
-      setIsPlaying(false);
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-  }, []); // empty array → runs once
-
-  /* -------------------- UI -------------------- */
+  /* -------------------- Render -------------------- */
   return (
     <Card className="border-4 transition-colors duration-300 hover:border-pink-500">
       <CardHeader>
@@ -150,15 +187,10 @@ export function AudioCard({ data }: AudioPlaybackCardProps) {
       </CardHeader>
 
       <CardContent className="space-y-4">
-        {/* Pixel-art waveform frame */}
         <div
-          className={`
-            w-full
-            bg-black
-            border-[4px]
-            shadow-[4px_4px_0_0_#000]
-            ${isPlaying ? 'border-pink-500' : 'border-white'}
-          `}
+          className={`w-full bg-black border-[4px] shadow-[4px_4px_0_0_#000] ${
+            isPlaying ? 'border-pink-500' : 'border-white'
+          }`}
         >
           <canvas
             ref={canvasRef}
@@ -168,10 +200,8 @@ export function AudioCard({ data }: AudioPlaybackCardProps) {
           />
         </div>
 
-        {/* Hidden audio element */}
         <audio ref={audioRef} src={src} preload="auto" />
 
-        {/* Playback controls */}
         <div className="flex gap-3">
           <Button size="sm" onClick={play} disabled={isPlaying}>
             Play
