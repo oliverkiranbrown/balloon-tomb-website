@@ -30,6 +30,10 @@ COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/next.config.ts ./next.config.ts
 
+# Scripts for admin provisioning
+COPY --from=builder /app/app ./app
+COPY --from=builder /app/scripts ./scripts
+
 # Create audio directory (owned by node)
 RUN mkdir -p /app/audio && chown -R node:node /app
 

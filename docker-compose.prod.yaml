@@ -14,6 +14,17 @@ services:
       - db
     restart: unless-stopped
 
+  admin-provision:
+    build: 
+      context: ./site
+      dockerfile: Dockerfile.prod
+    command: npx tsx scripts/create_admins.ts
+    env_file:
+      - .env.prod
+    depends_on:
+      - db
+    restart: "no"
+
   db:
     image: postgres:16-alpine
     env_file:
