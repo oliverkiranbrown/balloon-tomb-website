@@ -53,7 +53,7 @@ export default function NavBar() {
   ];
 
   const musicLinks = [
-    { href: "https://spotify.com", label: "Spotify", external: true },
+    { href: "https://spotify.com", label: "Always Late", external: true },
     { href: "https://bandcamp.com", label: "Bandcamp", external: true },
     { href: "/lyrics", label: "Lyrics", external: false },
   ];

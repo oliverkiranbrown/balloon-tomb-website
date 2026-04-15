@@ -5,10 +5,11 @@ export default function LivePage() {
 
     const upcoming = [
         {
-            date: "Saturday 24th Jan, 2025",
-            venue: "The Thunderbolt",
+            poster: "/posters/O2-june-2026.jpeg",
+            date: "Friday, 5th June 2026",
+            venue: "O2 Academy",
             city: "Bristol",
-            link: "https://www.fatsoma.com/e/s9s78jkw/the-underdog-2026-heat-f-alt-rock-punk"
+            link: "https://www.fatsoma.com/e/2o97q2w0/the-underdog-2026-grand-final"
         },
     ];
 
@@ -22,7 +23,20 @@ export default function LivePage() {
             poster: "/posters/the-fleece-july-2025.jpg",
             date: "July 20th, 2025",
             venue: "The Fleece",
-        }
+        },
+        {
+            poster: "/posters/thunderbolt-jan-2026.jpeg",
+            date: "Saturday 24th Jan, 2025",
+            venue: "The Thunderbolt",
+            city: "Bristol",
+        },
+        {
+            poster: "/posters/thekla-april-2026.jpeg",
+            date: "Sunday 5th April, 2026",
+            venue: "The Thunderbolt",
+            city: "Bristol",
+        },
+        
     ];
     
     return (
@@ -33,7 +47,7 @@ export default function LivePage() {
                     <p className="text-gray-400">No gigs announced. We are asleep.</p>
                 )}
 
-                <ul className="space-y-3">
+                <ul className="space-y-3 flex justify-center">
                     {upcoming.map((gig, index) => (
                         <li 
                             key={index} 
@@ -42,6 +56,15 @@ export default function LivePage() {
                             <p className="text-xl font-semibold">
                                 {gig.venue}
                             </p>
+                            <span>
+                                <div className="w-80 h-full">
+                                    <img 
+                                        src={gig.poster}
+                                        alt={`Gig Poster ${index+1}`}
+                                        className="w-full h-full object-cover"
+                                    />    
+                                </div> 
+                            </span>
                             <p>
                                 {gig.city} - {gig.date}
                             </p>
@@ -59,7 +82,7 @@ export default function LivePage() {
                 <h1 className="text-4xl font-bold mb-4">
                     Previous Gigs
                 </h1>
-                <div className="flex justify-center ">
+                <div className="flex justify-center">
                     <Carousel className="max-w-md bg-black p-1">
                         <CarouselContent className="gap-4">
                             {previous.map((gig, index) => (
@@ -72,7 +95,7 @@ export default function LivePage() {
                                                 alt={`Gig Poster ${index+1}`}
                                                 className="w-full h-full object-cover"
                                             />    
-                                        </div> s
+                                        </div> 
                                     </span>
                                 </div>
                             </CarouselItem>
