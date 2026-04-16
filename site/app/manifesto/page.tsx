@@ -1,110 +1,90 @@
 import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription } from "@/components/ui/pixelact-ui/dialog";
-import { Button } from "@/components/ui/pixelact-ui/button";
+
+const members = [
+  { name: "Damian", role: "plays guitar", gif: "/wanted/damian_rotated_pixelated.gif", rotate: "rotate-2"  },
+  { name: "Marcus", role: "shouts",       gif: "/wanted/marcus_rotated_pixelated.gif", rotate: "-rotate-1" },
+  { name: "Oli",    role: "plays drums",  gif: "/wanted/oli_rotated_pixelated.gif",    rotate: "rotate-1"  },
+  { name: "Taylor", role: "plays bass",   gif: "/wanted/taylor_rotated_pixelated.gif", rotate: "-rotate-2" },
+];
 
 export default function ManifestoPage() {
-    return (
-        <div className="p-6 bg-white text-black min-h-screen flex flex-col">
-            <h1 className="text-4xl font-bold">Manifesto</h1>
-            <br/>
-            <p>
-                Punk isn't dead. It's alive in the sounds of Balloon Tomb...
-            </p>
-            <br/>
-            <img
-                src="/photos/circle_pixelated.jpg"
-                alt="Taylor"
-                className="w-full h-full object-contain border-4 border-gray-300 hover:border-pink-500 transition-colors duration-300"
-            />
-             <br/>
-            <p>
-                Balloon Tomb are a silly and loud bunch of four people. They make their sounds within the city of Bristol. They enjoy shouting about goblins, trains, and dating apps. Don't shout back at them or they may cry. 
-            </p>
-            <br/>
+  return (
+    <div className="bg-black text-white min-h-screen">
+      <div className="max-w-2xl mx-auto px-4 py-8 sm:py-12 lg:py-16">
 
-            {/* Row of GIFs */}
-            <div className="flex flex-wrap gap-6 justify-center d">
-                <div className="flex flex-col items-center">
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <span className="font-semibold mb-2 hover:text-pink-500 hover:bg-yellow-200 cursor-pointer">Damian</span>
-                    </DialogTrigger>
-                    <DialogContent>
-                        <DialogTitle>This is Damian</DialogTitle>
-                        <DialogDescription>
-                            He plays guitar.
-                        </DialogDescription>
-                    </DialogContent>
-                </Dialog>
-                <img src="/wanted/damian_rotated_pixelated.gif" alt="Damian" className="w-50 h-full object-contain"/>
-                </div>
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8">
+          Manifesto
+        </h1>
 
-                <div className="flex flex-col items-center">
-                
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <span className="font-semibold mb-2 hover:text-pink-500 hover:bg-yellow-200 cursor-pointer">Marcus</span>
-                    </DialogTrigger>
-                    <DialogContent>
-                        <DialogTitle>This is Marcus</DialogTitle>
-                        <DialogDescription>
-                            He shouts.
-                        </DialogDescription>
-                    </DialogContent>
-                </Dialog>
-                <img src="/wanted/marcus_rotated_pixelated.gif" alt="Marcus" className="w-50 h-full object-contain"/>
-                </div>
-            </div>
-            <br/>
-            <div className="flex flex-wrap gap-6 justify-center">
-                <div className="flex flex-col items-center">
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <span className="font-semibold mb-2 hover:text-pink-500 hover:bg-yellow-200 cursor-pointer">Oli</span>
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogTitle>This is Oli</DialogTitle>
-                            <DialogDescription>
-                                He plays drums.
-                            </DialogDescription>
-                        </DialogContent>
-                    </Dialog>
-                    <img
-                    src="/wanted/oli_rotated_pixelated.gif"
-                    alt="Oli"
-                    className="w-50 h-full object-contain border-4 border-gray-300 hover:border-pink-500 transition-colors duration-300"
-                />
-                </div>
+        <p className="text-xs leading-loose mb-8">
+          Punk isn&apos;t dead. It&apos;s alive in the sounds of Balloon Tomb...
+        </p>
 
-                <div className="flex flex-col items-center">
-                
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <span className="font-semibold mb-2 hover:text-pink-500 hover:bg-yellow-200 cursor-pointer">Taylor</span>
-                    </DialogTrigger>
-                    <DialogContent>
-                        <DialogTitle>This is Taylor</DialogTitle>
-                        <DialogDescription>
-                            He plays bass.
-                        </DialogDescription>
-                    </DialogContent>
-                </Dialog>
-                <img
-                    src="/wanted/taylor_rotated_pixelated.gif"
-                    alt="Taylor"
-                    className="w-50 h-full object-contain border-4 border-gray-300 hover:border-pink-500 transition-colors duration-300"
-                />
-                </div>
-            </div>
-            <br/>
-            <p>
-                Checkout their silly words, socials and gigs, and submit ur worst dates n trains for us to yell about  - much fun to come!
-            </p>
-            <br/>
-            <img
-                src="/photos/line_pixelated.jpg"
-                alt="Taylor"
-                className="w-full h-full object-contain border-4 border-gray-300 hover:border-pink-500 transition-colors duration-300"
-            />  
+        <div className="mb-10">
+          <img
+            src="/photos/circle_pixelated.jpg"
+            alt="Balloon Tomb band photo"
+            className="w-full object-contain border-2 border-white/30"
+          />
         </div>
-    );
+
+        <p className="text-xs leading-loose mb-12">
+          Balloon Tomb are a silly and loud bunch of four people. They make their
+          sounds within the city of Bristol. They enjoy shouting about goblins,
+          trains, and dating apps. Don&apos;t shout back at them or they may cry.
+        </p>
+
+        {/* Member cards — rotated like photos pinned to a wall */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-12">
+          {members.map((member) => (
+            <div
+              key={member.name}
+              className={`
+                flex flex-col items-center gap-3
+                ${member.rotate}
+                hover:rotate-0 hover:-translate-y-2
+                transition-transform duration-200
+                ease-out
+              `}
+            >
+              <Dialog>
+                <DialogTrigger asChild>
+                  <button className="text-xs font-bold text-white hover:text-pink-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black transition-colors duration-200 rounded">
+                    {member.name}
+                  </button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogTitle>This is {member.name}</DialogTitle>
+                  <DialogDescription>
+                    He {member.role}.
+                  </DialogDescription>
+                </DialogContent>
+              </Dialog>
+              <img
+                src={member.gif}
+                alt={member.name}
+                loading="lazy"
+                className="w-full object-contain border-2 border-white/30 hover:border-pink-500 transition-colors duration-200"
+              />
+            </div>
+          ))}
+        </div>
+
+        <p className="text-xs leading-loose mb-12">
+          Checkout their silly words, socials and gigs, and submit ur worst dates n
+          trains for us to yell about &mdash; much fun to come!
+        </p>
+
+      </div>
+
+      {/* Full-width divider — intentionally outside the max-w container */}
+      <img
+        src="/photos/line_pixelated.jpg"
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        className="w-full object-cover"
+      />
+    </div>
+  );
 }

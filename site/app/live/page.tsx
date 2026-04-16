@@ -1,6 +1,3 @@
-'use client'
-import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/pixelact-ui/carousel";
-
 export default function LivePage() {
 
     const upcoming = [
@@ -18,97 +15,96 @@ export default function LivePage() {
             poster: "/posters/thunderbolt-nov-2025.jpg",
             date: "November 19th, 2025",
             venue: "The Thunderbolt",
+            city: "Bristol",
         },
         {
             poster: "/posters/the-fleece-july-2025.jpg",
             date: "July 20th, 2025",
             venue: "The Fleece",
+            city: "Bristol",
         },
         {
             poster: "/posters/thunderbolt-jan-2026.jpeg",
-            date: "Saturday 24th Jan, 2025",
+            date: "Saturday 24th Jan, 2026",
             venue: "The Thunderbolt",
             city: "Bristol",
         },
         {
             poster: "/posters/thekla-april-2026.jpeg",
             date: "Sunday 5th April, 2026",
-            venue: "The Thunderbolt",
+            venue: "Thekla",
             city: "Bristol",
         },
-        
     ];
-    
-    return (
-        <div className="p-6 text-black max-w-5xl mx-auto space-y-12">
-            <section>
-                <h1 className="text-4xl font-bold mb-4">Upcoming Gigs</h1>
-                {upcoming.length === 0 && (
-                    <p className="text-gray-400">No gigs announced. We are asleep.</p>
-                )}
 
-                <ul className="space-y-3 flex justify-center">
-                    {upcoming.map((gig, index) => (
-                        <li 
-                            key={index} 
-                            className="border-l-4 border-pink-500 pl-4 py-2 bg-black/40"
-                        >
-                            <p className="text-xl font-semibold">
-                                {gig.venue}
-                            </p>
-                            <span>
-                                <div className="w-80 h-full">
-                                    <img 
-                                        src={gig.poster}
-                                        alt={`Gig Poster ${index+1}`}
-                                        className="w-full h-full object-cover"
-                                    />    
-                                </div> 
-                            </span>
-                            <p>
-                                {gig.city} - {gig.date}
-                            </p>
-                            <p>
-                                <a href={gig.link} className="underline">
-                                    Get your tickets here!
-                                </a>
-                            </p>
-                        </li>
-                    ))}
-                </ul>
+    return (
+        <div className="text-white max-w-2xl mx-auto px-4 py-8 sm:py-12 space-y-16">
+
+            {/* Upcoming */}
+            <section>
+                <h2 className="text-xl font-bold mb-8">Upcoming Gigs</h2>
+
+                {upcoming.length === 0 ? (
+                    <p className="text-xs text-white/50 leading-loose">
+                        No gigs announced. We are asleep.
+                    </p>
+                ) : (
+                    <ul className="space-y-8">
+                        {upcoming.map((gig, i) => (
+                            <li key={i} className="flex flex-col sm:flex-row gap-6">
+                                <div className="w-full sm:w-44 shrink-0">
+                                    <div className="aspect-[3/4] overflow-hidden border-2 border-white/20">
+                                        <img
+                                            src={gig.poster}
+                                            alt={`${gig.venue} gig poster`}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex flex-col justify-center gap-5">
+                                    <p className="text-sm font-bold leading-loose">{gig.venue}</p>
+                                    <p className="text-[10px] text-white/60 leading-loose">
+                                        {gig.city}<br />{gig.date}
+                                    </p>
+                                    <a
+                                        href={gig.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-[10px] text-pink-400 hover:text-pink-300 underline underline-offset-4 transition-colors duration-200"
+                                    >
+                                        Get tickets
+                                    </a>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                )}
             </section>
 
+            {/* Previous */}
             <section>
-                <h1 className="text-4xl font-bold mb-4">
-                    Previous Gigs
-                </h1>
-                <div className="flex justify-center">
-                    <Carousel className="max-w-md bg-black p-1">
-                        <CarouselContent className="gap-4">
-                            {previous.map((gig, index) => (
-                            <CarouselItem key={index}> 
-                                <div className="h-120 flex items-center justify-center">
-                                    <span>
-                                        <div className="w-80 h-full">
-                                            <img 
-                                                src={gig.poster}
-                                                alt={`Gig Poster ${index+1}`}
-                                                className="w-full h-full object-cover"
-                                            />    
-                                        </div> 
-                                    </span>
-                                </div>
-                            </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                        <CarouselPrevious />
-                        <CarouselNext />
-                    </Carousel>
+                <h2 className="text-xl font-bold mb-8">Previous Gigs</h2>
+
+                <div className="grid grid-cols-2 gap-4 sm:gap-6">
+                    {previous.map((gig, i) => (
+                        <div key={i} className="flex flex-col gap-3">
+                            <div className="aspect-[3/4] overflow-hidden border-2 border-white/20">
+                                <img
+                                    src={gig.poster}
+                                    alt={`${gig.venue} gig poster`}
+                                    loading="lazy"
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                            <div>
+                                <p className="text-[10px] font-bold leading-loose">{gig.venue}</p>
+                                <p className="text-[10px] text-white/50 leading-loose">{gig.date}</p>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </section>
-        
-            
+
         </div>
-        
     );
 }

@@ -53,7 +53,7 @@ export default function NavBar() {
   ];
 
   const musicLinks = [
-    { href: "https://spotify.com", label: "Always Late", external: true },
+    { href: "https://show.co/social-unlock/2p89jlXCf2TpSHliNmmW8n/widget", label: "Always Late", external: true },
     { href: "https://bandcamp.com", label: "Bandcamp", external: true },
     { href: "/lyrics", label: "Lyrics", external: false },
   ];
@@ -193,6 +193,24 @@ export default function NavBar() {
                   )}
                 </li>
 
+                {/* Mobile Photos */}
+                <li className="border-b border-white/20 pb-4">
+                  <Link
+                    href="/photos"
+                    className={`
+                      block text-2xl font-bold tracking-wider
+                      py-3
+                      transition-all duration-200
+                      ${pathname === "/photos" ? "text-pink-500" : "text-white"}
+                      hover:text-pink-400
+                      active:text-pink-600
+                      hover:pl-4
+                    `}
+                  >
+                    Photos
+                  </Link>
+                </li>
+
                 {/* Mobile Socials */}
                 <li className="border-b border-white/20 pb-4">
                   <a
@@ -320,6 +338,13 @@ function DesktopNav({
           ))}
         </ul>
       </div>
+
+      {/* Photos */}
+      <NavLink
+        href="/photos"
+        label="Photos"
+        active={pathname === "/photos"}
+      />
 
       {/* Socials */}
       <a

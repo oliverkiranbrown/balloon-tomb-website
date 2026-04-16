@@ -8,6 +8,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-vt323: var(--font-vt323);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -129,10 +130,21 @@
   font-style: normal;
 }
 
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
 /* Apply globally*/
 html, body {
   font-family: "PressStart2P", sans-serif;
   max-width: 100%;
-  overflow-x: hidden; 
-  scrollbar-gutter: stable;
+  overflow-x: hidden;
+  background-color: black;
+  color: white;
 }

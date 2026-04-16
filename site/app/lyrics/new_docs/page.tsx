@@ -14,7 +14,7 @@ export default async function AlwaysLatePage() {
   const markdown = fs.readFileSync(filePath, "utf8");
 
   return (
-    <div className="p-6 bg-white text-black min-h-screen">
+    <div className="p-6 bg-black text-white min-h-screen">
       <MarkdownContent markdown={markdown} />
     </div>
   );

@@ -175,7 +175,7 @@ export default function Footer() {
             Instagram
           </a>
           <a
-            href="https://spotify.com"
+            href="https://show.co/social-unlock/2p89jlXCf2TpSHliNmmW8n/widget"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-pink-400"
