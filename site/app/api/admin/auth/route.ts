@@ -1,6 +1,6 @@
-// Route for the admin auth process
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import { query } from "@/app/lib/db";
 
 export async function POST(request: NextRequest) {
@@ -9,20 +9,20 @@ export async function POST(request: NextRequest) {
 
         if (!username || !password) {
             return NextResponse.json(
-                { error: "Missing a username or password"},
+                { error: "Missing a username or password" },
                 { status: 400 }
             );
         }
 
         // Grab the specific admin user requested
         const result = await query(
-            'SELECT username, password_hash FROM admins WHERE username = $1',
+            "SELECT id, username, password_hash FROM admins WHERE username = $1",
             [username]
         );
 
         if (!result.rows || result.rows.length === 0) {
             return NextResponse.json(
-                { error: 'Invalid Credentials' },
+                { error: "Invalid Credentials" },
                 { status: 401 }
             );
         }
@@ -32,34 +32,37 @@ export async function POST(request: NextRequest) {
 
         if (!passwordMatch) {
             return NextResponse.json(
-                { error: "Invalid Credentials"},
+                { error: "Invalid Credentials" },
                 { status: 401 }
             );
         }
 
-        // Success so provision session token
-        const sessionToken = Buffer.from(`${Date.now()}-${admin.id}`).toString('base64');
-    
+        // Generate a cryptographically random session ID
+        const sessionId = crypto.randomUUID();
+        const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+
+        // Persist session in the database
+        await query(
+            "INSERT INTO admin_sessions (id, admin_id, expires_at) VALUES ($1, $2, $3)",
+            [sessionId, admin.id, expiresAt]
+        );
+
         const response = NextResponse.json(
-            { 
-                sucess: true, 
-                user: {
-                    id: admin.id,
-                    username: admin.username
-                }
+            {
+                success: true,
+                user: { username: admin.username }
             },
             { status: 200 }
         );
 
-        // Now set the admin_session cookie
         response.cookies.set({
-            name: 'admin_session',
-            value: sessionToken,
-            httpOnly: true, // to avoid XSS attacks
-            secure: process.env.NODE_ENV === 'production', // https only in production
-            sameSite: 'lax',
+            name: "admin_session",
+            value: sessionId,
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
             maxAge: 60 * 60 * 24 * 7, // 1 week
-            path: '/',
+            path: "/",
         });
 
         return response;
@@ -69,8 +72,6 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
             { error: "Authentication failed" },
             { status: 500 }
-        )
+        );
     }
 }
-
-

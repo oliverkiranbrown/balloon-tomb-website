@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription } from "@/components/ui/pixelact-ui/dialog";
 
 const members = [
@@ -20,11 +21,15 @@ export default function ManifestoPage() {
           Punk isn&apos;t dead. It&apos;s alive in the sounds of Balloon Tomb...
         </p>
 
-        <div className="mb-10">
-          <img
+        <div className="mb-10 border-2 border-white/30 overflow-hidden">
+          <Image
             src="/photos/circle_pixelated.jpg"
             alt="Balloon Tomb band photo"
-            className="w-full object-contain border-2 border-white/30"
+            width={1200}
+            height={800}
+            className="w-full h-auto object-contain"
+            sizes="(max-width: 640px) 100vw, 672px"
+            priority
           />
         </div>
 
@@ -60,11 +65,15 @@ export default function ManifestoPage() {
                   </DialogDescription>
                 </DialogContent>
               </Dialog>
-              <img
+              {/* unoptimized preserves GIF animation */}
+              <Image
                 src={member.gif}
                 alt={member.name}
+                width={300}
+                height={380}
+                unoptimized
                 loading="lazy"
-                className="w-full object-contain border-2 border-white/30 hover:border-pink-500 transition-colors duration-200"
+                className="w-full h-auto object-contain border-2 border-white/30 hover:border-pink-500 transition-colors duration-200"
               />
             </div>
           ))}
@@ -78,12 +87,14 @@ export default function ManifestoPage() {
       </div>
 
       {/* Full-width divider — intentionally outside the max-w container */}
-      <img
+      <Image
         src="/photos/line_pixelated.jpg"
         alt=""
-        aria-hidden="true"
-        loading="lazy"
-        className="w-full object-cover"
+        aria-hidden
+        width={1920}
+        height={300}
+        className="w-full h-auto"
+        sizes="100vw"
       />
     </div>
   );

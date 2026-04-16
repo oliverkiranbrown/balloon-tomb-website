@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function MerchPage() {
   return (
     <div className="bg-black text-white min-h-screen">
@@ -20,10 +22,14 @@ export default function MerchPage() {
                 overflow-hidden
               "
             >
-              <img
+              <Image
                 src="/merch/walking-fish-tee.png"
                 alt="Balloon Tomb walking fish tee"
-                className="w-full object-contain"
+                width={600}
+                height={600}
+                className="w-full h-auto object-contain"
+                sizes="(max-width: 1024px) 100vw, 55vw"
+                priority
               />
             </div>
 
@@ -50,12 +56,14 @@ export default function MerchPage() {
           </div>
 
           <div className="border-2 border-white/20 overflow-hidden">
-            <div className="aspect-video overflow-hidden">
-              <img
+            <div className="relative aspect-video overflow-hidden">
+              <Image
                 src="/merch/merch-drying.jpg"
                 alt="Freshly printed tees drying"
+                fill
+                className="object-cover object-center"
+                sizes="(max-width: 640px) 100vw, 672px"
                 loading="lazy"
-                className="w-full h-full object-cover object-center"
               />
             </div>
           </div>
@@ -67,12 +75,16 @@ export default function MerchPage() {
 
           <div className="flex flex-col sm:flex-row gap-6">
             <div className="sm:w-36 shrink-0 border-2 border-white/20 overflow-hidden">
-              <img
-                src="/merch/sticker-bottle.jpg"
-                alt="Balloon Tomb stickers"
-                loading="lazy"
-                className="w-full aspect-[9/16] object-cover object-center"
-              />
+              <div className="relative aspect-[9/16]">
+                <Image
+                  src="/merch/sticker-bottle.jpg"
+                  alt="Balloon Tomb stickers"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 640px) 100vw, 144px"
+                  loading="lazy"
+                />
+              </div>
             </div>
 
             <div className="flex flex-col justify-center gap-3">

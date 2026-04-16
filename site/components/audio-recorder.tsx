@@ -123,24 +123,18 @@ export default function AudioRecorder(
 
         // Define a function for when recording stopped.
         mediaRecorderRef.current!.onstop = () => {
-            
-            const audioBlob = new Blob(chunksRef.current, {
-                type: "audio/webm",
-            });
-            const url = URL.createObjectURL(audioBlob);
-            
-            // Store the blob value/url in state
-            setAudioBlob(audioBlob);
-            setAudioURL(url);
+            const blob = new Blob(chunksRef.current, { type: "audio/webm" });
 
-            // Notify parent
+            // Store blob only — the useEffect below creates and manages the URL
+            setAudioBlob(blob);
+
+            // Notify parent (URL will be set by the useEffect)
             if (onAudioChange) {
-                onAudioChange(audioBlob, url);
+                onAudioChange(blob, URL.createObjectURL(blob));
             }
 
             // Clean out the start chunks
             chunksRef.current = [];
-            
         };
     };
 

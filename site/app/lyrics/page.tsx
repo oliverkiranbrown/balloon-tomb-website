@@ -76,6 +76,10 @@ function SongItem({
         className="flex items-center gap-3 group select-none"
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
+        onFocus={handleEnter}
+        onBlur={handleLeave}
+        onTouchStart={handleEnter}
+        onTouchEnd={handleLeave}
       >
         <span
           className="font-['PressStart2P'] text-xs text-pink-400 transition-opacity duration-75"

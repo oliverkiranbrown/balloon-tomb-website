@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 interface Photo {
@@ -110,12 +111,15 @@ function PhotoCard({ photo, index }: { photo: Photo; index: number }) {
         transform: hovered
           ? `rotate(${photo.rotate * 0.08}deg) translateY(-16px) scale(1.03)`
           : `rotate(${photo.rotate}deg)`,
-        transition: "transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)",
+        // ease-out-quart: smooth deceleration, no overshoot
+        transition: "transform 0.3s cubic-bezier(0.25, 1, 0.5, 1)",
         zIndex: hovered ? 20 : 1,
         animation: `photoEnter 0.6s ease-out ${index * 80}ms backwards`,
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onTouchStart={() => setHovered(true)}
+      onTouchEnd={() => setTimeout(() => setHovered(false), 800)}
     >
       {/* Tape strip */}
       <div
@@ -127,7 +131,7 @@ function PhotoCard({ photo, index }: { photo: Photo; index: number }) {
           height: 22,
           background: "oklch(0.96 0.018 85 / 0.52)",
           transform: hovered ? "scaleX(0.88) rotate(-1deg)" : "scaleX(1) rotate(0deg)",
-          transition: "transform 0.35s ease",
+          transition: "transform 0.3s ease",
         }}
       />
 
@@ -140,7 +144,7 @@ function PhotoCard({ photo, index }: { photo: Photo; index: number }) {
           boxShadow: hovered
             ? "10px 16px 40px oklch(0 0 0 / 0.9)"
             : "3px 5px 16px oklch(0 0 0 / 0.6)",
-          transition: "box-shadow 0.35s ease",
+          transition: "box-shadow 0.3s ease",
         }}
       >
         {/* Scanline overlay on hover */}
@@ -157,17 +161,17 @@ function PhotoCard({ photo, index }: { photo: Photo; index: number }) {
           />
         )}
 
-        <img
-          src={photo.src}
-          alt={photo.alt}
-          loading="lazy"
-          className="block w-full"
-          style={{
-            aspectRatio: "3 / 2",
-            objectFit: "cover",
-            objectPosition: "center",
-          }}
-        />
+        {/* Image container with fixed aspect ratio for <Image fill> */}
+        <div className="relative w-full" style={{ aspectRatio: "3 / 2" }}>
+          <Image
+            src={photo.src}
+            alt={photo.alt}
+            fill
+            loading="lazy"
+            className="object-cover object-center"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        </div>
 
         {/* Caption */}
         <p
@@ -285,15 +289,15 @@ export default function PhotosPage() {
           </div>
         </header>
 
-        {/* Photo grid */}
+        {/* Photo grid — 1 col mobile, 2 col tablet, 3 col desktop */}
         <div
-          className="grid grid-cols-1 lg:grid-cols-3 max-w-5xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto"
           style={{ gap: "72px 52px", gridAutoFlow: "dense" }}
         >
           {photos.map((photo, i) => (
             <div
               key={i}
-              className={photo.span === 2 ? "lg:col-span-2" : ""}
+              className={photo.span === 2 ? "md:col-span-2 lg:col-span-2" : ""}
             >
               <PhotoCard photo={photo} index={i} />
             </div>

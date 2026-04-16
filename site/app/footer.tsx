@@ -20,8 +20,7 @@ import {
   SelectItem 
 } from "@/components/ui/pixelact-ui/select";
 import { Button } from "@/components/ui/pixelact-ui/button";
-import AudioRecorder from "@/components/audio-recorder"
-import { Divide } from "lucide-react";
+import AudioRecorder from "@/components/audio-recorder";
 
 export default function Footer() {
   const [textData, setTextData] = useState("");
@@ -51,7 +50,7 @@ export default function Footer() {
 
       // If fine, send - does this need custom handling?
       if (res.ok) {
-        const data = await res.json();
+        await res.json();
         setSent(true);
         return;
       }
@@ -71,11 +70,12 @@ export default function Footer() {
 
       // If fine, send - does this need custom handling?
       if (res.ok) {
-        const data = await res.json();
+        await res.json();
         setSent(true);
         return;
-      } 
-    }  
+      }
+    }
+
   }
 
   return (
@@ -118,12 +118,16 @@ export default function Footer() {
               </Select>
 
               {inputMode === "text" && (
-                <textarea
-                  className="w-full h-45 p-3 text-sm text-white bg-black border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
-                  placeholder="Give us the tea!"
-                  value={textData}
-                  onChange={(e) => setTextData(e.target.value)}
-                />
+                <>
+                  <label htmlFor="submission-text" className="sr-only">Your message</label>
+                  <textarea
+                    id="submission-text"
+                    className="w-full h-44 p-3 text-sm text-white bg-black border border-white rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                    placeholder="Give us the tea!"
+                    value={textData}
+                    onChange={(e) => setTextData(e.target.value)}
+                  />
+                </>
               )}
 
               {inputMode === "audio" && (

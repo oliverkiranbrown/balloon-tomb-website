@@ -148,3 +148,187 @@ html, body {
   background-color: black;
   color: white;
 }
+
+/* ── Landing page ─────────────────────────────────────────── */
+
+.landing-root {
+  position: relative;
+  min-height: calc(100dvh - 140px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: oklch(0.03 0 0);
+  overflow: hidden;
+}
+
+/* CRT scanline overlay */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    oklch(0 0 0 / 0.13) 3px,
+    oklch(0 0 0 / 0.13) 4px
+  );
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Corner scan markers */
+.scan-mark {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: oklch(0.98 0 0 / 0.22);
+  border-style: solid;
+  border-width: 0;
+  pointer-events: none;
+}
+.scan-mark-tl {
+  top: 20px;
+  left: 20px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+}
+.scan-mark-br {
+  bottom: 20px;
+  right: 20px;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+}
+
+/* Logo float wrapper — carries the levitation */
+.logo-float-wrap {
+  display: block;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  animation: logo-float 5.5s ease-in-out infinite;
+}
+
+/* Glitch container */
+.glitch-wrap {
+  position: relative;
+  width: min(80vw, 360px);
+}
+
+.logo-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  mix-blend-mode: screen;
+  user-select: none;
+}
+
+.glitch-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  mix-blend-mode: screen;
+}
+
+/* Float */
+@keyframes logo-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-11px); }
+}
+
+/* Shake on glitch */
+@keyframes logo-shake {
+  0%   { transform: translate(0,     0); }
+  14%  { transform: translate(-3px,  1px); }
+  28%  { transform: translate( 3px, -1px); }
+  42%  { transform: translate(-2px,  1px); }
+  57%  { transform: translate( 2px,  0); }
+  71%  { transform: translate(-1px, -1px); }
+  85%  { transform: translate( 1px,  1px); }
+  100% { transform: translate(0,     0); }
+}
+
+.glitch-wrap.glitching {
+  animation: logo-shake 0.42s steps(1) forwards;
+}
+
+/* Pink channel slice */
+@keyframes glitch-slice-a {
+  0% {
+    opacity: 1;
+    clip-path: inset(6% 0 68% 0);
+    transform: translateX(-6px);
+    filter: sepia(1) saturate(18) hue-rotate(292deg) brightness(1.5);
+  }
+  20% {
+    clip-path: inset(52% 0 14% 0);
+    transform: translateX(7px);
+  }
+  40% {
+    clip-path: inset(28% 0 46% 0);
+    transform: translateX(-4px);
+  }
+  60% {
+    clip-path: inset(74% 0 4% 0);
+    transform: translateX(5px);
+  }
+  80% {
+    clip-path: inset(16% 0 62% 0);
+    transform: translateX(-2px);
+  }
+  100% { opacity: 0; clip-path: none; transform: translateX(0); }
+}
+
+/* Bright white slice */
+@keyframes glitch-slice-b {
+  0% {
+    opacity: 1;
+    clip-path: inset(38% 0 32% 0);
+    transform: translateX(8px);
+    filter: brightness(3) contrast(4);
+  }
+  25% {
+    clip-path: inset(12% 0 64% 0);
+    transform: translateX(-5px);
+  }
+  50% {
+    clip-path: inset(64% 0 12% 0);
+    transform: translateX(5px);
+  }
+  75% {
+    clip-path: inset(82% 0 4% 0);
+    transform: translateX(-3px);
+  }
+  100% { opacity: 0; clip-path: none; transform: translateX(0); }
+}
+
+.glitch-wrap.glitching .layer-a {
+  animation: glitch-slice-a 0.42s steps(1) forwards;
+}
+.glitch-wrap.glitching .layer-b {
+  animation: glitch-slice-b 0.42s steps(1) 0.055s forwards;
+}
+
+/* Blinking cursor */
+.pixel-cursor {
+  display: block;
+  width: 11px;
+  height: 19px;
+  background: oklch(0.95 0 0);
+  margin-top: 32px;
+  animation: blink 1.15s step-end infinite;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .logo-float-wrap    { animation: none !important; }
+  .glitch-wrap.glitching { animation: none !important; }
+  .glitch-layer,
+  .glitch-wrap.glitching .layer-a,
+  .glitch-wrap.glitching .layer-b { display: none !important; }
+  .pixel-cursor       { animation: none !important; opacity: 1; }
+}

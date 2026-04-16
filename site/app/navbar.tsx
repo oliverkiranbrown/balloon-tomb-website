@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 
@@ -66,10 +67,13 @@ export default function NavBar() {
           <div className="flex items-center justify-between">
             {/* Logo - always visible */}
             <Link href="/" className="z-25">
-              <img
+              <Image
                 src="/logos/balloon-tomb-dark.jpg"
                 alt="Balloon Tomb Logo"
+                width={112}
+                height={140}
                 className="w-20 md:w-24 lg:w-28 object-contain"
+                priority
               />
             </Link>
 

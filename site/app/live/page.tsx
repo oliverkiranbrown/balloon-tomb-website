@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function LivePage() {
 
     const upcoming = [
@@ -53,11 +55,14 @@ export default function LivePage() {
                         {upcoming.map((gig, i) => (
                             <li key={i} className="flex flex-col sm:flex-row gap-6">
                                 <div className="w-full sm:w-44 shrink-0">
-                                    <div className="aspect-[3/4] overflow-hidden border-2 border-white/20">
-                                        <img
+                                    <div className="relative aspect-[3/4] overflow-hidden border-2 border-white/20">
+                                        <Image
                                             src={gig.poster}
                                             alt={`${gig.venue} gig poster`}
-                                            className="w-full h-full object-cover"
+                                            fill
+                                            className="object-cover"
+                                            sizes="(max-width: 640px) 100vw, 176px"
+                                            priority
                                         />
                                     </div>
                                 </div>
@@ -88,12 +93,14 @@ export default function LivePage() {
                 <div className="grid grid-cols-2 gap-4 sm:gap-6">
                     {previous.map((gig, i) => (
                         <div key={i} className="flex flex-col gap-3">
-                            <div className="aspect-[3/4] overflow-hidden border-2 border-white/20">
-                                <img
+                            <div className="relative aspect-[3/4] overflow-hidden border-2 border-white/20">
+                                <Image
                                     src={gig.poster}
                                     alt={`${gig.venue} gig poster`}
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 640px) 50vw, 320px"
                                     loading="lazy"
-                                    className="w-full h-full object-cover"
                                 />
                             </div>
                             <div>

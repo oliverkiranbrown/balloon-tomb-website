@@ -36,9 +36,6 @@ export default function AdminLogin() {
       });
 
       if (result.ok) {
-        const data = await result.json();
-        console.log('Authentication successful', data)
-
         window.location.href = '/admin';
 
       } else {

@@ -16,7 +16,7 @@ export default async function AlwaysLatePage() {
   return (
     <div className="p-6 bg-black text-white min-h-screen">
       <MarkdownContent markdown={markdown} />
-      <iframe src="https://show.co/social-unlock/2p89jlXCf2TpSHliNmmW8n/widget" width="300" height="300" className="mx-auto"></iframe>
+      <iframe src="https://show.co/social-unlock/2p89jlXCf2TpSHliNmmW8n/widget" title="Always Late — listen on Spotify" width="300" height="300" className="mx-auto"></iframe>
     </div>
   );
 }
