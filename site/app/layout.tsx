@@ -24,8 +24,8 @@ export const metadata: Metadata = {
   title: "Balloon Tomb",
   description: "Silly little shouty band",
   icons: {
-    icon: "/icon.png",
-    shortcut: "/icon.png",
+    icon: "/fish_black.png",
+    shortcut: "/fish_black.png",
   },
 };
 

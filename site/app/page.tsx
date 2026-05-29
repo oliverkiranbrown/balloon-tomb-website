@@ -75,32 +75,37 @@ export default function Home() {
         <div className={`glitch-wrap${glitching ? " glitching" : ""}`}>
           {/* Base layer */}
           <img
-            src="/logos/balloon-tomb-dark.jpg"
+            src="/logos/fish.png"
             alt="Balloon Tomb"
             className="logo-img"
             draggable={false}
+            width={900}
+            height={900}
           />
           {/* Pink channel slice */}
           <img
-            src="/logos/balloon-tomb-dark.jpg"
+            //src="/logos/balloon-tomb-dark.jpg"
+            src="/logos/fish.png"
             alt=""
             aria-hidden="true"
             className="glitch-layer layer-a"
             draggable={false}
+            width={900}
+            height={900}
           />
           {/* Bright white slice */}
           <img
-            src="/logos/balloon-tomb-dark.jpg"
+            //src="/logos/balloon-tomb-dark.jpg"
+            src="/logos/fish.png"
             alt=""
             aria-hidden="true"
             className="glitch-layer layer-b"
             draggable={false}
+            width={900}
+            height={900}
           />
         </div>
       </a>
-
-      {/* Blinking cursor */}
-      <span className="pixel-cursor" aria-hidden="true" />
     </div>
   );
 }
