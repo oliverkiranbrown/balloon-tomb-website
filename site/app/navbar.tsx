@@ -54,8 +54,8 @@ export default function NavBar() {
   ];
 
   const musicLinks = [
-    { href: "https://show.co/social-unlock/2p89jlXCf2TpSHliNmmW8n/widget", label: "Always Late", external: true },
-    { href: "https://bandcamp.com", label: "Bandcamp", external: true },
+    { href: "https://open.spotify.com/track/0dqggYmeM4OmNuMjZ4cZro?si=6a4f2b2ff6984a56", label: "Always Late", external: true },
+    { href: "https://open.spotify.com/artist/1xTjODtfZg9q1z1jKZAEmh", label: "Spotify", external: true },
     { href: "/lyrics", label: "Lyrics", external: false },
   ];
 

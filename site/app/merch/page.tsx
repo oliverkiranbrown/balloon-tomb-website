@@ -35,21 +35,21 @@ export default function MerchPage() {
 
             <div className="flex flex-col justify-center gap-5">
               <p className="text-[10px] leading-loose text-white/80">
-                Hand printed by our frontman.
+                Hand-printed by us!
               </p>
               <p className="text-[10px] leading-loose text-white/80">
-                Recycled charity shop tees.
+                Recycled from charity shops
               </p>
               <p className="text-[10px] leading-loose text-white/80">
-                Art by our mates.
+                Limitted runs
               </p>
               <p className="text-[10px] leading-loose text-white/80">
-                Only at gigs.{" "}
+                Only at gigs: {" "}
                 <a
                   href="/live"
                   className="text-pink-400 hover:text-pink-300 underline underline-offset-4 transition-colors duration-200"
                 >
-                  Dates.
+                  Dates
                 </a>
               </p>
             </div>
