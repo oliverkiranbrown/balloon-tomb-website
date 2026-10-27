@@ -1,8 +1,8 @@
 #!/bin/zsh
 
 # === INPUT/OUTPUT DIR ===
-INPUT_DIR="/Users/oliverkiranbrown/Documents/Balloon Tomb/Website Assets/Thunderbolt Nov 2025/to_crunch"
-OUTPUT_DIR="/Users/oliverkiranbrown/Documents/Balloon Tomb/Website Assets/Thunderbolt Nov 2025/weak_crunched"
+INPUT_DIR="/Users/oliverkiranbrown/Documents/Balloon Tomb/Website Assets/Updates 27.11.26/to_crunch"
+OUTPUT_DIR="/Users/oliverkiranbrown/Documents/Balloon Tomb/Website Assets/Updates 27.11.26/weak_crunched"
 
 # Loop through the .mov files in the input dir
 for FILE in $INPUT_DIR/*.(jpg|JPG|jpeg|JPEG)(N); do
