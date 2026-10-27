@@ -2,6 +2,9 @@ import fs from "fs";
 import path from "path";
 import Image from "next/image";
 
+// Shuffled on every request, so the order changes on each page refresh.
+export const dynamic = "force-dynamic";
+
 const GALLERY_DIR = path.join(process.cwd(), "public", "gallery");
 const IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp", ".avif", ".gif"];
 

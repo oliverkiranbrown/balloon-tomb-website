@@ -46,6 +46,7 @@ cd site && npx tsx scripts/create_admins.ts
 - `site/app/api/` — Route handlers for submissions and admin auth
 - `site/components/` — Shared React components; `components/ui/` contains Pixelact-ui wrappers
 - `site/scripts/` — One-off scripts (e.g., admin user creation)
+- `scripts/` — Dev-machine media helpers, not run in Docker: `ffmeg/downscale_photos.sh` shrinks photos before committing, `ffmeg/process_photo.sh` + `ffmeg/process_video.sh` apply the pixelated 8-bit effect, `convert_audio.sh` converts submitted WebM audio to mp3
 - `db-init/` — SQL init scripts run by PostgreSQL on first container start (no migration tool)
 - `audio/` — Mounted volume where user-uploaded WebM audio files are stored
 
@@ -63,6 +64,10 @@ Admin auth uses a simple cookie (`admin_session`) containing a base64-encoded `{
 ### Content (lyrics)
 
 Each song has a markdown file in `site/app/content/lyrics/` and a corresponding directory under `site/app/lyrics/[song_name]/page.tsx`. New songs require both. The lyrics index page (`site/app/lyrics/page.tsx`) lists available songs.
+
+### Photos
+
+`site/app/photos/page.tsx` reads `site/public/gallery` at request time (the route is `force-dynamic`), shuffles the order on every refresh and title-cases the filename for the alt text. Dropping a photo into the folder is all that's needed — filenames double as accessibility copy, and sub-folders (e.g. `_originals`) are ignored. Downscale new photos first with `scripts/ffmeg/downscale_photos.sh` so the repo and Docker image stay small.
 
 ### Audio pipeline
 
