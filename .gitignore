@@ -3,3 +3,6 @@
 /audio/*
 audio_mp3
 node_modules
+
+# full-size photo backups kept by scripts/ffmeg/downscale_photos.sh --in-place
+site/public/gallery/_originals/
