@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link";
 import { useState } from "react";
 import {
   AlertDialog,
@@ -178,13 +179,14 @@ export default function Footer() {
           >
             Instagram
           </a>
-          <a
-            href="https://open.spotify.com/artist/1xTjODtfZg9q1z1jKZAEmh"
+          <Link href="/streaming" className="hover:text-pink-400">
+            Streaming
+          </Link>
+          <a 
+            href="mailto:balloon.tomb@gmail.com"
             target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-pink-400"
           >
-            Spotify
+            Email
           </a>
         </div>
       </div>

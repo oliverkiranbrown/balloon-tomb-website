@@ -54,10 +54,8 @@ export default function NavBar() {
   ];
 
   const musicLinks = [
-    { href: "https://open.spotify.com/album/3BEeeeoAys7iPWBFYCyVf4?si=Tkei_ghZTkO4DZqxhvQUKA", label: "Talloon Boon", external: true },
-    { href: "https://open.spotify.com/track/0dqggYmeM4OmNuMjZ4cZro?si=4061744477974149", label: "Always Late", external: true },
-    { href: "https://open.spotify.com/track/6lfRw6rckJvxJlniTlm2bo?si=55ef3280a4de48d9", label: "Dull Apps", external: true },
-    { href: "https://open.spotify.com/artist/1xTjODtfZg9q1z1jKZAEmh?si=twmFcKseSdKY7WjOKcLNYg", label: "Spotify", external: true },
+    { href: "/streaming", label: "Streaming", external: false },
+    { href: "/video", label: "Video", external: false },
     { href: "/lyrics", label: "Lyrics", external: false },
   ];
 
@@ -162,7 +160,7 @@ export default function NavBar() {
                       w-full text-left text-2xl font-bold tracking-wider
                       py-3
                       transition-all duration-200
-                      ${pathname?.startsWith("/music") ? "text-pink-500" : "text-white"}
+                      ${pathname === "/streaming" || pathname === "/video" || pathname === "/lyrics" ? "text-pink-500" : "text-white"}
                       hover:text-pink-400
                       active:text-pink-600
                       flex items-center justify-between

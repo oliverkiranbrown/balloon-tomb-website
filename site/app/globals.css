@@ -325,6 +325,90 @@ html, body {
   animation: blink 1.15s step-end infinite;
 }
 
+/* ── Video page (CRT cabinet) ─────────────────────────────── */
+
+/* Refresh band drifting down the tube */
+@keyframes crt-sweep {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(400%); }
+}
+
+/* Tube shimmer — the picture never sits perfectly still */
+@keyframes crt-flicker {
+  0%, 100% { opacity: 0.03; }
+  38%      { opacity: 0.09; }
+  41%      { opacity: 0.02; }
+  73%      { opacity: 0.11; }
+}
+
+/* Neon bleeding out from behind the cabinet */
+@keyframes crt-glow {
+  0%, 100% { opacity: 0.18; transform: scale(0.96); }
+  50%      { opacity: 0.40; transform: scale(1.03); }
+}
+
+.crt-glow {
+  position: absolute;
+  inset: -16px;
+  background: radial-gradient(
+    ellipse at center,
+    var(--color-pink-500, #f6339a) 0%,
+    transparent 68%
+  );
+  filter: blur(30px);
+  animation: crt-glow 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.crt-sweep {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 28%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    oklch(0.98 0 0 / 0.06) 50%,
+    transparent 100%
+  );
+  animation: crt-sweep 6.5s linear infinite;
+  pointer-events: none;
+}
+
+.crt-flicker {
+  position: absolute;
+  inset: 0;
+  background: oklch(0.98 0 0);
+  mix-blend-mode: screen;
+  animation: crt-flicker 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.crt-vignette {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 55px 10px oklch(0 0 0 / 0.85);
+  pointer-events: none;
+}
+
+/* Still is drained of colour until you hover, then it comes alive */
+.crt-poster {
+  filter: grayscale(1) contrast(1.15) brightness(0.8);
+  transition: filter 0.45s ease, transform 0.45s ease;
+}
+
+.group:hover .crt-poster {
+  filter: grayscale(0.1) contrast(1.05) brightness(1);
+  transform: scale(1.04);
+}
+
+/* Arcade button presses into the cabinet */
+.group:active .crt-play {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .logo-float-wrap    { animation: none !important; }
@@ -333,4 +417,9 @@ html, body {
   .glitch-wrap.glitching .layer-a,
   .glitch-wrap.glitching .layer-b { display: none !important; }
   .pixel-cursor       { animation: none !important; opacity: 1; }
+  .crt-glow           { animation: none !important; }
+  .crt-sweep,
+  .crt-flicker        { animation: none !important; display: none !important; }
+  .group:hover .crt-poster  { transform: none !important; }
+  .group:active .crt-play   { transform: none !important; }
 }
