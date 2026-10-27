@@ -1,19 +1,48 @@
+import fs from "fs";
+import path from "path";
 import Image from "next/image";
 
-const photos = [
-  { src: "/gallery/full-band-action-thunderbolt.jpg", alt: "Full band at The Thunderbolt" },
-  { src: "/gallery/taylor-bass.jpg", alt: "Taylor on bass" },
-  { src: "/gallery/oli-portrait.jpg", alt: "Oli" },
-  { src: "/gallery/marcus-portrait.jpg", alt: "Marcus" },
-  { src: "/gallery/damian-portrait.jpg", alt: "Damian" },
-  { src: "/gallery/marcus-taylor-action-shot-thekla.jpg", alt: "Marcus and Taylor at Thekla" },
-  { src: "/gallery/taylor-portrait.jpg", alt: "Taylor" },
-  { src: "/gallery/full-band-sandwich.jpg", alt: "Full band" },
-  { src: "/gallery/thekla-full-band-far-away.jpg", alt: "Full band at Thekla" },
-  { src: "/gallery/marcus-action-shot-frontman.jpg", alt: "Marcus on stage" },
-];
+const GALLERY_DIR = path.join(process.cwd(), "public", "gallery");
+const IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png", ".webp", ".avif", ".gif"];
+
+/** Turn a filename into readable alt text: "full-band-sandwich.jpg" -> "Full Band Sandwich" */
+function titleCaseFilename(filename: string) {
+  return filename
+    .replace(/\.[^.]+$/, "")
+    .split(/[-_\s]+/)
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+/** Fisher-Yates shuffle so the gallery order changes on every render */
+function shuffle<T>(items: T[]) {
+  const shuffled = [...items];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+function getPhotos() {
+  const filenames = fs
+    .readdirSync(GALLERY_DIR, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && !entry.name.startsWith("."))
+    .map((entry) => entry.name)
+    .filter((name) =>
+      IMAGE_EXTENSIONS.includes(path.extname(name).toLowerCase())
+    );
+
+  return shuffle(filenames).map((name) => ({
+    src: `/gallery/${name}`,
+    alt: titleCaseFilename(name),
+  }));
+}
 
 export default function PhotosPage() {
+  const photos = getPhotos();
+
   return (
     <div className="min-h-screen bg-black px-4 py-12">
       <div className="columns-1 sm:columns-2 max-w-4xl mx-auto gap-3">
