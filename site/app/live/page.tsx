@@ -1,4 +1,5 @@
 import Image from "next/image";
+import PageHeading from "@/components/page_heading";
 import { formatDate, gigs, isUpcoming } from "@/app/lib/gigs";
 
 // Split depends on today's date, so re-evaluate hourly instead of at build time.
@@ -10,6 +11,7 @@ export default function LivePage() {
 
     return (
         <div className="text-white max-w-2xl mx-auto px-4 py-8 sm:py-12 space-y-16">
+            <PageHeading title="Live" />
 
             {/* Upcoming */}
             <section>

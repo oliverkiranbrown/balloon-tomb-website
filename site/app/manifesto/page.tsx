@@ -1,4 +1,5 @@
 import Image from "next/image";
+import PageHeading from "@/components/page_heading";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription } from "@/components/ui/pixelact-ui/dialog";
 
 const members = [
@@ -13,9 +14,7 @@ export default function ManifestoPage() {
     <div className="bg-black text-white min-h-screen">
       <div className="max-w-2xl mx-auto px-4 py-8 sm:py-12 lg:py-16">
 
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-8">
-          Manifesto
-        </h1>
+        <PageHeading title="Manifesto" />
 
         <p className="text-xs leading-loose mb-8">
           Punk isn&apos;t dead. It&apos;s alive in the sounds of Balloon Tomb...

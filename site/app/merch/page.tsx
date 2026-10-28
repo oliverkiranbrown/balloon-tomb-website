@@ -1,75 +1,77 @@
 import Image from "next/image";
 
+import PageHeading from "@/components/page_heading";
+
+/* Rolls through the departure-board ticker beneath the tee photo. */
+const tickerItems = ["Balloon Tomb", "Walking Fish Tee"];
+
+const teeSpecs: { text: string; link?: { href: string; label: string } }[] = [
+  { text: "Hand-printed by us!" },
+  { text: "Recycled from charity shops" },
+  { text: "Limitted runs" },
+  { text: "Only at gigs:", link: { href: "/live", label: "Dates" } },
+];
+
 export default function MerchPage() {
   return (
     <div className="bg-black text-white min-h-screen">
-      <div className="max-w-2xl mx-auto px-4 py-8 sm:py-12">
 
-        {/* ── TEES ── */}
-        <section className="mb-20">
-          <h2 className="text-xl font-bold mb-10">Tees</h2>
+      {/* ── THE TEE ── */}
+      <section className="mx-auto w-full max-w-4xl">
 
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 mb-10">
-            <div
-              className="
-                w-full lg:w-[55%] shrink-0
-                border-2 border-white/30
-                shadow-[4px_4px_0px_0px_white]
-                hover:-translate-y-1
-                hover:border-pink-500
-                hover:shadow-[4px_4px_0px_0px_theme(colors.pink.500)]
-                transition-all duration-200
-                overflow-hidden
-              "
+        {/* Title card */}
+        <div className="px-4 pt-10 sm:pt-14">
+          <PageHeading title="Merch" />
+        </div>
+
+        {/* Front and centre */}
+        <div
+          className="
+            relative
+            aspect-[5/4] sm:aspect-[3/2]
+            border-2 border-white/30
+            shadow-[4px_4px_0px_0px_white]
+            hover:-translate-y-1
+            hover:border-pink-500
+            hover:shadow-[4px_4px_0px_0px_theme(colors.pink.500)]
+            transition-all duration-200
+            overflow-hidden
+          "
+        >
+          <Image
+            src="/merch/walking-fish-tee.png"
+            alt="Balloon Tomb walking fish tee, photographed against a train departures board"
+            fill
+            priority
+            sizes="(min-width: 896px) 896px, 100vw"
+            className="object-cover object-center"
+          />
+        </div>
+
+        {/* The small print */}
+        <ul className="mt-6 grid grid-cols-1 gap-px border-y border-white/10 bg-white/10 sm:grid-cols-2">
+          {teeSpecs.map((spec) => (
+            <li
+              key={spec.text}
+              className="bg-black px-4 py-5 font-vt323 text-lg leading-relaxed text-white/80 sm:px-6 sm:text-xl"
             >
-              <Image
-                src="/merch/walking-fish-tee.png"
-                alt="Balloon Tomb walking fish tee"
-                width={600}
-                height={600}
-                className="w-full h-auto object-contain"
-                sizes="(max-width: 1024px) 100vw, 55vw"
-                priority
-              />
-            </div>
-
-            <div className="flex flex-col justify-center gap-5">
-              <p className="text-[10px] leading-loose text-white/80">
-                Hand-printed by us!
-              </p>
-              <p className="text-[10px] leading-loose text-white/80">
-                Recycled from charity shops
-              </p>
-              <p className="text-[10px] leading-loose text-white/80">
-                Limitted runs
-              </p>
-              <p className="text-[10px] leading-loose text-white/80">
-                Only at gigs: {" "}
+              {spec.text}{" "}
+              {spec.link && (
                 <a
-                  href="/live"
+                  href={spec.link.href}
                   className="text-pink-400 hover:text-pink-300 underline underline-offset-4 transition-colors duration-200"
                 >
-                  Dates
+                  {spec.link.label}
                 </a>
-              </p>
-            </div>
-          </div>
+              )}
+            </li>
+          ))}
+        </ul>
 
-          <div className="border-2 border-white/20 overflow-hidden">
-            <div className="relative aspect-video overflow-hidden">
-              <Image
-                src="/merch/merch-drying.jpg"
-                alt="Freshly printed tees drying"
-                fill
-                className="object-cover object-center"
-                sizes="(max-width: 640px) 100vw, 672px"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </section>
+      </section>
 
-        {/* ── OTHER STUFF ── */}
+      {/* ── OTHER STUFF ── */}
+      <div className="mx-auto max-w-2xl px-4 pt-20 pb-8 sm:pb-12">
         <section>
           <h2 className="text-sm font-bold mb-6 text-white/50">Also.</h2>
 
@@ -103,8 +105,8 @@ export default function MerchPage() {
             </div>
           </div>
         </section>
-
       </div>
+
     </div>
   );
 }

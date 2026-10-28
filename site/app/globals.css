@@ -315,6 +315,35 @@ html, body {
   animation: glitch-slice-b 0.42s steps(1) 0.055s forwards;
 }
 
+/* ── Merch page (departure-board ticker) ──────────────────── */
+
+/* Two identical groups slide one group-width and loop seamlessly.
+   Groups grow to fill when their content is narrower than the board. */
+@keyframes merch-ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.merch-ticker {
+  overflow: hidden;
+}
+
+.merch-ticker-track {
+  display: flex;
+  width: max-content;
+  min-width: 100%;
+  animation: merch-ticker 26s linear infinite;
+}
+
+.merch-ticker-group {
+  display: flex;
+  flex: 1 0 auto;
+  align-items: center;
+  justify-content: space-around;
+  gap: 2rem;
+  padding: 10px 0;
+}
+
 /* Blinking cursor */
 .pixel-cursor {
   display: block;
@@ -420,6 +449,7 @@ html, body {
   .crt-glow           { animation: none !important; }
   .crt-sweep,
   .crt-flicker        { animation: none !important; display: none !important; }
+  .merch-ticker-track { animation: none !important; }
   .group:hover .crt-poster  { transform: none !important; }
   .group:active .crt-play   { transform: none !important; }
 }

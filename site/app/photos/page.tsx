@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import Image from "next/image";
+import PageHeading from "@/components/page_heading";
 
 // Shuffled on every request, so the order changes on each page refresh.
 export const dynamic = "force-dynamic";
@@ -48,6 +49,10 @@ export default function PhotosPage() {
 
   return (
     <div className="min-h-screen bg-black px-4 py-12">
+      <div className="max-w-4xl mx-auto">
+        <PageHeading title="Photos" />
+      </div>
+
       <div className="columns-1 sm:columns-2 max-w-4xl mx-auto gap-3">
         {photos.map((photo, i) => (
           <div key={i} className="mb-3 break-inside-avoid">
