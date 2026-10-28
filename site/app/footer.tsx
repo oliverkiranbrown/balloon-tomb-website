@@ -182,9 +182,9 @@ export default function Footer() {
           <Link href="/streaming" className="hover:text-pink-400">
             Streaming
           </Link>
-          <a 
+          <a
             href="mailto:balloon.tomb@gmail.com"
-            target="_blank"
+            className="hover:text-pink-400"
           >
             Email
           </a>
