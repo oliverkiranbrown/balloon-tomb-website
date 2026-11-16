@@ -21,6 +21,7 @@ export const gigs: readonly Gig[] = [
   { date: "2026-01-24", venue: "The Thunderbolt", city: "Bristol", poster: "/posters/thunderbolt-jan-2026.jpeg" },
   { date: "2026-04-05", venue: "Thekla", city: "Bristol", poster: "/posters/thekla-april-2026.jpeg" },
   { date: "2026-09-05", venue: "The Old England", city: "Bristol", poster: "/posters/cjc-sept-2026.jpeg" },
+  { date: "2026-11-20", venue: "LTB Showrooms", city: "Coventry", poster: "/posters/ltb-nov-2026.jpg", ticketUrl: "https://www.skiddle.com/e/43140187" },
   { date: "2026-11-27", venue: "Shredenhams", city: "Bristol", poster: "/posters/shredz.JPG", ticketUrl: "https://hdfst.uk/e164450" },
 ];
 
